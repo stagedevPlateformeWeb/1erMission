@@ -131,6 +131,17 @@ p {
  cursor: pointer;
 }
 
+h4{
+  margin-top: 40px;
+  margin-bottom: 10px;
+  position: relative;
+  /*encadré et en gras*/
+  border: 4px solid #2f5d5f;
+  font-weight: bold;
+  color: #2f5d5f;
+}
+
+
 #cart-icon {
   width: 100px;
   height: 50px;
