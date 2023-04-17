@@ -15,6 +15,10 @@ async function fetchProducts(searchQuery = '') {
     const products = await response.json();
     const productList = document.querySelector('.product-list');
     
+    if (!productList) {
+      return;
+    }
+    
     productList.innerHTML = '';
     
     products.forEach((product) => {
