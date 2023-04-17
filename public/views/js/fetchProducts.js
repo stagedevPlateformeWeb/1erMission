@@ -1,5 +1,12 @@
-async function fetchProducts(searchQuery) {
+async function fetchProducts(searchQuery = '') {
   try {
+    // Si searchQuery n'est pas fourni, on le récupère depuis l'URL
+    if (!searchQuery) {
+      const urlParams = new URLSearchParams(window.location.search);
+      searchQuery = urlParams.get('search') || '';
+    }
+    
+    // Si searchQuery est fourni, on l'ajoute à l'URL
     const url = searchQuery
       ? `http://localhost:4000/api/products?search=${encodeURIComponent(searchQuery)}`
       : 'http://localhost:4000/api/products';
@@ -33,6 +40,6 @@ function updateCartCount() {
   cartCount.textContent = totalCount;
 }
 
-// Appelez fetchProducts sans paramètre pour charger tous les produits au début
+// fetchProducts sans paramètre pour charger tous les produits au début
 fetchProducts();
 updateCartCount();
