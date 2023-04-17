@@ -40,10 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
       y: 100,
       opacity: 0,
       ease: 'power4.out',
-      scrollTrigger: {
-        trigger: div,
-        start: 'top 80%',
-      },
     });
   });
   

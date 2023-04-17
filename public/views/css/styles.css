@@ -255,9 +255,9 @@ main input {
 main button {
   width: 30%;
   height: 50px;
-  margin-top: 150px;
-  position: absolute;
-  top: 75%;
+  margin-top: 10px;
+  /* top: 80%; */
+  position: relative;
 }
 
 /* Ajout de styles pour les boutons */
