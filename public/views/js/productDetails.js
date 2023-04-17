@@ -25,4 +25,6 @@ async function fetchProductDetails() {
   }
 }
 
-fetchProductDetails();
+if (new URLSearchParams(window.location.search).get('productId')) {
+  fetchProductDetails();
+}

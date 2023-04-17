@@ -54,6 +54,10 @@ function displayCartItems() {
     });
   }
   
-  displayCartItems();
-  placeOrder();
+  if (document.querySelector('.cart-summary')) {
+    displayCartItems();
+  }
   
+  if (document.getElementById('place-order')) {
+    placeOrder();
+  }
