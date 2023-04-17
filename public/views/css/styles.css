@@ -101,6 +101,8 @@ section {
 section h2 {
   color: white;
   margin-left: 50px;
+  position: relative;
+  display: contents;
 }
 
 /* Styles pour le pied de page */
@@ -135,10 +137,12 @@ h4{
   margin-top: 40px;
   margin-bottom: 10px;
   position: relative;
-  /*encadré et en gras*/
   border: 4px solid #2f5d5f;
   font-weight: bold;
   color: #2f5d5f;
+  padding: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 
@@ -171,8 +175,13 @@ h4{
   background-color: #5f9ea0;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  width: 330px;
   padding: 20px;
+  display: grid;
+  justify-content: center;
+  align-content: stretch;
+  justify-items: center;
+
 }
 
 /* Styles pour la page de détails du produit */
