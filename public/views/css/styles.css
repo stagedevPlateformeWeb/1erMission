@@ -85,9 +85,8 @@ h2 {
 
 section {
   display: flex;
-  margin: 20px;
   padding: 40px;
-  background-color: #1a1a1a;
+  background-color: #b0aaff;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: white;
@@ -99,10 +98,11 @@ section {
 
 
 section h2 {
-  color: white;
   margin-left: 50px;
   position: relative;
   display: contents;
+  font-size: xxx-large;
+  font-weight: normal;
 }
 
 /* Styles pour le pied de page */
