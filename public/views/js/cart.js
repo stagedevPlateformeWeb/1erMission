@@ -24,7 +24,7 @@ class Cart {
     }
 
     localStorage.setItem('cart', JSON.stringify(this.items));
-    this._triggerEvent('change');
+    this._triggerEvent('change', { product, quantity });
   }
 
   removeItem(productId) {
@@ -55,6 +55,11 @@ class Cart {
     this.items = [];
     localStorage.removeItem('cart');
     this._triggerEvent('change');
+  }
+
+  _triggerEvent(eventName, data) {
+    const event = new CustomEvent(eventName, { detail: data });
+    document.dispatchEvent(event);
   }
 }
 
