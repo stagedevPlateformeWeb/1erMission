@@ -123,6 +123,7 @@ section .product-list {
   display: grid;
   grid-template-columns: repeat(3,1fr);
   grid-template-rows: repeat(3,1fr);
+
 }
 
 section .product{
@@ -130,6 +131,19 @@ section .product{
   border-style: 1px;
   border: black;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.product{
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 330px;
+  padding: 20px;
+  display:grid;
+  justify-content: center;
+  align-content: stretch;
+  justify-items: center;
+  margin: 1em;
 }
 
 
@@ -188,19 +202,7 @@ p {
   flex-direction: column;
 }
 
-.product{
-  cursor: pointer;
-  margin: 40px;
-  background-color: #5f9ea0;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 330px;
-  padding: 20px;
-  display: grid;
-  justify-content: center;
-  align-content: stretch;
-  justify-items: center;
-}
+
 
 /* Styles pour la page de détails du produit */
 .product-details {
