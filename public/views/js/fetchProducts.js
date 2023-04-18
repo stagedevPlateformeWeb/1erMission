@@ -1,5 +1,6 @@
 async function fetchProducts(searchQuery = '') {
   try {
+    // Cette partie va êter modifiée pour ajouter l'ajustement de prix (mettre dans l'url le min et le max du prix et l'api fera le filtre avec)
     // Si searchQuery n'est pas fourni, on le récupère depuis l'URL
     if (!searchQuery) {
       const urlParams = new URLSearchParams(window.location.search);

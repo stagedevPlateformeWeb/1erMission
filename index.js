@@ -73,6 +73,8 @@ app.get('/api/products', async (req, res) => {
     let query = 'SELECT id, name, price FROM products';
     if (searchQuery) {
       query += ' WHERE name LIKE ?';
+      // Rajouter les tranches de prix
+      // Si valeurs de bases, on met les valeurs de bases dans la recherche
     }
     const [rows] = await connection.query(query, [`%${searchQuery}%`]);
     res.json(rows);
