@@ -5,6 +5,16 @@ async function fetchProductDetails() {
     const product = await response.json();
     const productDetails = document.querySelector('.product-details');
     
+    if (product.description === null) {
+      product.description = 'Aucune description disponible';
+    }else if (product.name === null) {
+      product.name = 'Aucun nom disponible';
+    }else if (product.price === null) {
+      product.price = 'Aucun prix disponible';
+    }else if (product.image_url === null) {
+      product.image_url = 'Aucune image disponible';
+    }
+    
     productDetails.innerHTML = `
       <h2>${product.name}</h2>
       <img src="${product.image_url}" alt="${product.name}" width="300" height="300">
