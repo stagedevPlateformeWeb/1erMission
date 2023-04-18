@@ -2,14 +2,17 @@ function displayCartItems() {
   const cartSummary = document.querySelector('.cart-summary');
   const cartItems = cart.getItems();
 
-  let totalCost = 0;
-
-  // élément pour afficher le coût total
+  // Créer un élément pour afficher le coût total
   const totalCostElement = document.createElement('h4');
   
   function updateTotalCost() {
-    totalCost = cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
+    const totalCost = cart.getTotal();
     totalCostElement.innerHTML = `Coût total : ${totalCost.toFixed(2)}€`;
+  }
+  function updateCartCount() {
+    const cartCount = document.getElementById('cart-count');
+    const totalCount = cart.getItems().reduce((count, item) => count + item.quantity, 0);
+    cartCount.textContent = totalCount;
   }
   
   cartItems.forEach((item) => {
@@ -47,6 +50,7 @@ function displayCartItems() {
       itemQuantity.textContent = newQuantity;
       updatePrice();
       updateTotalCost();
+      updateCartCount();
     });
 
     incrementBtn.addEventListener('click', () => {
@@ -56,18 +60,16 @@ function displayCartItems() {
       itemQuantity.textContent = newQuantity;
       updatePrice();
       updateTotalCost();
+      updateCartCount();
     });
 
     cartSummary.appendChild(cartItemDiv);
-
-    // update coût total
-    totalCost += item.product.price * item.quantity;
   });
 
   updateTotalCost();
   cartSummary.appendChild(totalCostElement);
-}
 
+}
 
   
   async function isLoggedIn() {
