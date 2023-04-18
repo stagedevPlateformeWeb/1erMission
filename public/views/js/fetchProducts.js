@@ -19,14 +19,16 @@ async function fetchProducts(searchQuery = '') {
       return;
     }
     
-    if(product.name === null) {
-      product.name = 'Sans nom';
-    }else if (product.price === null) {
-      product.price = '--';
-    }
+  
     productList.innerHTML = '';
     
     products.forEach((product) => {
+      if (product.name === null) {
+        product.name = 'Sans nom';
+      }
+      if (product.price === null) {
+        product.price = '--';
+      }
       const productDiv = document.createElement('div');
       productDiv.classList.add('product');
       productDiv.innerHTML = `
