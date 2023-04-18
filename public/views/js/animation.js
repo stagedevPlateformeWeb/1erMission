@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+/*document.addEventListener('DOMContentLoaded', function () {
   // Animation pour le header
   gsap.from('header', { duration: 1, y: -100, opacity: 0, ease: 'back' });
 
@@ -57,3 +57,5 @@ document.addEventListener('DOMContentLoaded', function () {
     },
   });
 });
+
+*/

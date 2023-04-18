@@ -32,8 +32,8 @@ async function fetchProducts(searchQuery = '') {
       const productDiv = document.createElement('div');
       productDiv.classList.add('product');
       productDiv.innerHTML = `
-        <h3>${product.name}</h3>
-        <p>Prix: ${product.price}€</p>
+        <h3>${product.name}</h3> 
+        <h1>Prix: ${product.price}€</h1>
       `;
       productList.appendChild(productDiv);
       productDiv.addEventListener('click', () => {

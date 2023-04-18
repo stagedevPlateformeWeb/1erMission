@@ -19,7 +19,7 @@ async function updateLoginStatus() {
       loginContainer.appendChild(userInfo);
     } else {
       const loginButton = document.createElement('button');
-      loginButton.innerHTML = '<img src="img/login.png" alt="Login">';
+      loginButton.innerHTML = '<img src="assets/bx-user.svg" alt="Login">';
       loginButton.onclick = () => {
         window.location.href = '/login';
       };
