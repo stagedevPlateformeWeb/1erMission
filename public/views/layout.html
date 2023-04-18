@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>{% block title %} {% endblock %}</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="login">
+        <div id="login-container"></div>
+      </div>      
+      <div class="logo">
+        <h1 onclick="window.location.href='/'">Prototype e-commerce</h1>
+      </div>
+      <div class="search">
+        <input type="search" id="search" name="search" placeholder="Rechercher un produit">
+        <button id="search-button">Rechercher</button>
+      </div>
+      <div class="cart">
+        <img src="img/panier.png" alt="Panier" id="cart-icon" onclick="window.location.href='/checkout'"/>
+        <span id="cart-count"></span>
+      </div>
+     </nav>
+  </header>
+
+  {% block content %}{% endblock %}
+
+
+  <script src="js/animation.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/fetchProducts.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/productDetails.js"></script>
+  <script src="js/checkout.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/loginStatus.js"></script>
+
+</body>
+<footer>
+  <p>&copy; 2023 Mon site e-commerce</p>
+</footer>
+</html>

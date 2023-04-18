@@ -1,0 +1,18 @@
+{
+  "name": "prototype-ecommerce",
+  "version": "1.0.0",
+  "description": "Un prototype de site e-commerce",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mime": "^3.0.0",
+    "mysql2": "^3.2.0",
+    "nunjucks": "^3.2.3"
+  }
+}
