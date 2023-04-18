@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
   // Animation pour le header
-  gsap.from('header', { duration: 1, y: -100, opacity: 0, ease: 'back' });
+  gsap.from('header', { duration: 0.6, y: -100, opacity: 0, ease: 'expo.out' });
 
   // Animation pour les sections
   const sections = document.querySelectorAll('section');
   sections.forEach((section, index) => {
     gsap.from(section, {
-      duration: 1,
+      duration: 0.7,
       x: index % 2 === 0 ? -200 : 200,
       opacity: 0,
-      ease: 'power4.out',
+      ease: 'expo.out',
       scrollTrigger: {
         trigger: section,
-        start: 'top 80%',
+        start: 'top 75%',
       },
     });
   });
@@ -21,36 +21,34 @@ document.addEventListener('DOMContentLoaded', function () {
   const forms = document.querySelectorAll('form');
   forms.forEach((form) => {
     gsap.from(form, {
-      duration: 1,
+      duration: 0.6,
       y: 100,
       opacity: 0,
-      ease: 'power4.out',
+      ease: 'expo.out',
       scrollTrigger: {
         trigger: form,
-        start: 'top 80%',
+        start: 'top 75%',
       },
     });
   });
 
   // Animation pour les divs
   const divs = document.querySelectorAll('div');
-  divs.forEach((div) => {
-    gsap.from(div, {
-      duration: 1,
-      y: 100,
-      opacity: 0,
-      ease: 'power4.out',
-    });
+  gsap.from(divs, {
+    duration: 0.7,
+    y: 100,
+    opacity: 0,
+    ease: 'expo.out',
+    stagger: 0.15,
   });
-  
 
   // Animation pour le footer
   gsap.from('footer', {
-    duration: 1,
-    ease: 'back',
+    duration: 0.9,
+    ease: 'expo.out',
     scrollTrigger: {
       trigger: 'footer',
-      start: 'top 80%',
+      start: 'top 75%',
     },
     onComplete: function () {
       document.querySelector('footer').style.opacity = 1;
