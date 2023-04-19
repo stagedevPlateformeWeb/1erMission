@@ -5,9 +5,6 @@ function RedirectionVersIndex(searchQuery) {
 const inputMinimum = document.getElementById('inputMinimum');
 const inputMaximum = document.getElementById('inputMaximum');
 
-parseInt(inputMinimum.value);
-parseInt(inputMaximum.value);
-
 // Fonction qui permet de voir les valeurs saisies dans les inputs
 function rechercheAvecPrix() {
   // Si la valeur minimale est supérieure à la valeur maximale, on inverse les valeurs
