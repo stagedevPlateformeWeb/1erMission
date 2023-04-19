@@ -298,44 +298,24 @@ button:hover {
 
 /* Style pour la ligne d'ajustement des prix */
 
-.ligne-prix {
-  width: 10%;
-  height: 10px;
-  background-color: black;
-  position: relative;
-  border-radius: 30px;
-}
-
-.point-prix {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #fff;
-  border: 2px solid #ccc;
-  position: absolute;
-  top: -5px;
-  cursor: pointer;
-}
-
-#point-minimum {
-  left: 0px;
-}
-
-#point-maximum {
-  right: 0px;
-}
-
-.affichage-valeurs-prix {
+.indication-prix {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-.affichage-valeurs-prix span {
-  font-size: 14px;
+label {
+  display: block;
+  margin-bottom: 10px;
 }
 
-.valeur-prix {
-  font-weight: bold;
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
 }
 

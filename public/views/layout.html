@@ -22,15 +22,12 @@
         <input type="search" id="search" name="search" placeholder="Rechercher un produit">
         <button id="search-button">Rechercher</button>
       </div>
-      <!-- Ligne pour ajustement des prix pour la recherche d'articles -->
-      <div class="ligne-prix">
-        <div class ="point-prix" id="point-minimum"></div>
-        <div class="point-prix" id="point-maximum"></div>
-      </div>
-      <!-- Champs pour afficher les valeurs ajustées dans la ligne d'ajustement de prix -->
-      <div class="affichage-valeurs-prix">
-        <div class="valeur-prix" id="valeur-minimum"></div>
-        <div class="valeur-prix" id="valeur-maximum"></div>
+      <!-- Deux inputs pour la recherche en fonction des prix -->
+      <div class="indication-prix">
+        <label for="inputMinimum">Prix minimum</label>
+        <input type="number" id="inputMinimum" name="minimum" value="0" min="0" max="1000">
+        <label for="inputMaximum">Prix maximum</label>
+        <input type="number" id="inputMaximum" name="maximum" value="1000" min="0" max="1000">
       </div>
       <div class="cart">
         <img src="img/panier.png" alt="Panier" id="cart-icon" onclick="window.location.href='/checkout'"/>
