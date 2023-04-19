@@ -104,22 +104,19 @@ function displayCartItems() {
         return;
       }
   
-      // Traitez la commande ici (Stripe ou PayPal)
-      // Utilisez l'API de Stripe ou PayPal
-  
-      // Si le panier est vide, on ne fait rien
+      // Si le panier est vide, afficher un message d'alerte et ne rien faire
       if (cart.getItems().length === 0) {
+        alert("Votre panier est vide. Veuillez ajouter des articles avant de passer une commande.");
         return;
       }
   
-      // Vider le panier
-      cart.clear();
-  
-      alert('Commande passée avec succès !');
-  
-      // Rediriger vers la page d'accueil
-      window.location.href = '/';
+      // Afficher le bouton PayPal pour procéder au paiement
+      document.getElementById('paypal-button-container').style.display = 'block';
     });
+  }
+  
+  if (document.getElementById('place-order')) {
+    placeOrder();
   }
   
   if (document.querySelector('.cart-summary')) {

@@ -1,6 +1,6 @@
 {% extends "views/layout.html" %}
 
-{% block title %} 
+{% block title %}
 Panier
 {% endblock %}
 {% block content %}
@@ -10,7 +10,8 @@ Panier
       <!-- produits du panier affichés ici -->
     </div>
     <button id="place-order">Passer la commande</button>
+    <div id="paypal-button-container"></div>
+    
+    <script src="https://www.paypal.com/sdk/js?client-id=ATcDyurH7u3DCSJiE2EaQ0we3Q-D1El4D2X4ClsL3IGijCp9nJ-UdJ4hV4eLh-DqWk9osSzut-6lrWF3"></script>
   </main>
 {% endblock %}
-
-
