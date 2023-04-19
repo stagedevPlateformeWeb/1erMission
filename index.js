@@ -69,10 +69,13 @@ app.get('/checkout', (req, res) => {
 app.get('/api/products', async (req, res) => {
   try {
     const searchQuery = req.query.search;
+    const valeurMin = req.query.min;
+    const valeurMax = req.query.max;
     const connection = await mysql.createConnection(dbConfig);
     let query = 'SELECT id, name, price FROM products';
     if (searchQuery) {
       query += ' WHERE name LIKE ?';
+      query += ' AND price >= ' + valeurMin + ' AND price <= ' + valeurMax;
     }
     const [rows] = await connection.query(query, [`%${searchQuery}%`]);
     res.json(rows);
