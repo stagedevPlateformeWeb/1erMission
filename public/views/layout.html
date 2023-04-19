@@ -34,18 +34,9 @@
 
       <div class="search">
         <input type="search" id="search" name="search" placeholder="Rechercher un produit">
-        <button id="search-button">Rechercher</button>
-      </div>
-      <!-- Deux inputs pour la recherche en fonction des prix -->
-      <div class="indication-prix">
-        <label for="inputMinimum">Prix minimum</label>
-        <input type="number" id="inputMinimum" name="minimum" value="0" min="0" max="1000">
-        <label for="inputMaximum">Prix maximum</label>
-        <input type="number" id="inputMaximum" name="maximum" value="1000" min="0" max="1000">
-      </div>
-      <div class="cart">
-        <img src="assets/bx-search(1).svg" alt="Panier" id="cart-icon" onclick="window.location.href='/checkout'"/>
-        <span id="cart-count"></span>
+        <button id="search-button">
+          <img src="assets/bx-search(1).svg" alt="search"/>
+        </button>
       </div>
      </nav>
   </header>
@@ -61,8 +52,7 @@
   <script src="js/checkout.js"></script>
   <script src="js/login.js"></script>
   <script src="js/loginStatus.js"></script>
-  <script src="js/addProduct.js"></script>
- 
+
 </body>
 <footer>
   <p>&copy; 2023 Mon site e-commerce</p>
