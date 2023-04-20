@@ -67,11 +67,11 @@ app.get('/checkout', (req, res) => {
 });
 
 app.get('/success', (req, res) => {
-  res.send('Paiement réussi !');
+  res.render('successPayment.html');
 });
 
 app.get('/cancel', (req, res) => {
-  res.send('Paiement annulé.');
+  res.render('cancelPayment.html');
 });
 
 
