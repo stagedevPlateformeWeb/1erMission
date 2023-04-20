@@ -3,7 +3,6 @@ const stripe = Stripe(
     );
 
     async function handlePayment() {
-        // Créez un objet "lineItems" à partir du contenu de votre panier
         const lineItems = cart.getItems().map(item => ({
           price_data: {
             currency: 'eur',
@@ -15,7 +14,6 @@ const stripe = Stripe(
           quantity: item.quantity
         }));
       
-        // Créez une session de paiement
         const response = await fetch('/api/create-checkout-session', {
           method: 'POST',
           headers: {
@@ -26,7 +24,7 @@ const stripe = Stripe(
       
         const session = await response.json();
       
-        // Redirigez l'utilisateur vers la page de paiement Stripe
+        // Redirige l'utilisateur vers la page de paiement Stripe
         const result = await stripe.redirectToCheckout({
           sessionId: session.id
         });

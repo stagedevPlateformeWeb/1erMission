@@ -185,10 +185,6 @@ app.post('/api/checkout', async (req, res) => {
   if (!req.session.user) {
     return res.status(401).send('Veuillez vous connecter pour passer une commande.');
   }
-
-  // Traitez la commande ici (Stripe ou PayPal)
-  // Enregistrez la commande dans la base de données
-  // ...
 });
 
 app.get('/ajouter-un-produit', (req, res) => {
