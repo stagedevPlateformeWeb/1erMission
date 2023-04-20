@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
 const mime = require('mime');
@@ -12,7 +13,19 @@ const stripe = require('stripe')('sk_test_51MyZGYLm2HjfbIuBd1bZFwKuM9exAUBnOxXIj
 
 const app = express();
 app.use(cors());
+app.use(helmet());
 app.use(express.json());
+
+
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://js.stripe.com"],
+    imgSrc: ["'self'"],
+    styleSrc: ["'self'", "https://fonts.googleapis.com"],
+    fontSrc: ["'self'"],
+  },
+}));
 
 
 const port = 4000;
