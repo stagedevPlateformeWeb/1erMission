@@ -6,7 +6,10 @@ function getTotalCost() {
 function updateTotalCost() {
   const totalCost = getTotalCost();
   totalCostElement.innerHTML = `Coût total : ${totalCost.toFixed(2)}€`;
-}  
+
+  paymentRequest.update({ total: { label: 'Coût total', amount: Math.round(totalCost * 100) } });
+}
+
 function displayCartItems() {
   const cartSummary = document.querySelector('.cart-summary');
   const cartItems = cart.getItems();

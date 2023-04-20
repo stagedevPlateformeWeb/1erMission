@@ -32,4 +32,37 @@ const stripe = Stripe(
         if (result.error) {
           console.error(result.error.message);
         }
-      }
+}
+
+// détails de la transaction
+const paymentRequest = stripe.paymentRequest({
+    country: 'FR',
+    currency: 'eur',
+    total: {
+      label: 'Coût total',
+      amount: Math.round(getTotalCost() * 100),
+    },
+    requestPayerName: true,
+    requestPayerEmail: true,
+  });
+  
+  // Verif si Apple Pay est disponible
+  paymentRequest.canMakePayment().then((result) => {
+    if (result) {
+      const applePayButton = document.getElementById('apple-pay-button');
+      applePayButton.style.display = 'block';
+  
+      applePayButton.addEventListener('click', async () => {
+        const result = await paymentRequest.show();
+  
+        if (result.error) {
+          console.error(result.error.message);
+        } else {
+          // Gérez le succès du paiement ici
+          console.log('Paiement réussi avec Apple Pay');
+          window.location.href = '/success';
+        }
+      });
+    }
+  });
+  
