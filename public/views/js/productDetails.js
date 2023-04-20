@@ -18,8 +18,11 @@ async function fetchProductDetails() {
     productDetails.innerHTML = `
       <h2>${product.name}</h2>
       <img src="${product.image_url}" alt="${product.name}" width="300" height="300">
-      <p>Prix: ${product.price}€</p>
-      <p>Description: ${product.description}</p>
+      <label>Prix: ${product.price}€</label>
+      <div class="description">
+      <label>Description:</label>
+      <p>${product.description}</p>
+      </div>
       <button id="add-to-cart">Ajouter au panier</button>
     `;
     

@@ -1,4 +1,5 @@
 async function updateLoginStatus() {
+
   const response = await fetch('/api/isLoggedIn');
   const { isLoggedIn, user } = await response.json();
 
