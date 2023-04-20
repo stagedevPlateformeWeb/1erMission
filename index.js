@@ -208,63 +208,6 @@ app.post('/api/add-product', async (req, res) => {
   }
 });
 
-app.post("/api/create-order", async (req, res) => {
-  const { items } = req.body;
-
-  // Créez l'objet de commande ici
-  const order = {
-    intent: "CAPTURE",
-    purchase_units: [
-      {
-        description: "Achat sur votre site",
-        amount: {
-          currency_code: "EUR",
-          value: "0.00", // Remplacez cette valeur par le montant total de la commande
-        },
-        items: items, // Ajoutez les articles de la commande
-      },
-    ],
-  };
-
-  const request = new checkoutNodeJssdk.orders.OrdersCreateRequest();
-  request.preferredLocale("fr-FR");
-  request.requestBody(order);
-
-  try {
-    const response = await paypalClient.execute(request);
-    res.json({ orderID: response.result.id });
-  } catch (error) {
-    console.error("Erreur lors de la création de la commande :", error);
-    res.status(500).send("Erreur lors de la création de la commande");
-  }
-});
-
-app.post("/api/checkout/:orderID", async (req, res) => {
-  const request = new checkoutNodeJssdk.orders.OrdersGetRequest(req.params.orderID);
-
-  try {
-    const response = await paypalClient.execute(request);
-    const order = response.result;
-
-    // Validez et enregistrez la commande ici
-    if (order.status === "COMPLETED") {
-      // Enregistrez les détails de la commande dans votre base de données ou effectuez d'autres actions en fonction de votre application
-      console.log("Commande validée et enregistrée :", order.id);
-    } else {
-      console.error("La commande n'a pas été validée :", order.id);
-      res.status(500).send("La commande n'a pas été validée");
-      return;
-    }
-
-    res.sendStatus(200);
-  } catch (error) {
-    console.error("Erreur lors de la récupération de la commande :", error);
-    res.status(500).send("Erreur lors de la récupération de la commande");
-  }
-});
-
-
-
 
 app.listen(port, () => {
   console.log(`API en écoute sur http://localhost:${port}`);

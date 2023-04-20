@@ -1,3 +1,6 @@
+let paypalButtonsRendered = false;
+
+
 function displayCartItems() {
   const cartSummary = document.querySelector('.cart-summary');
   const cartItems = cart.getItems();
@@ -110,11 +113,55 @@ function displayCartItems() {
         return;
       }
   
-      // Afficher le bouton PayPal pour procéder au paiement
-      document.getElementById('paypal-button-container').style.display = 'block';
+      // Afficher le bouton PayPal pour procéder au paiement si les boutons PayPal ne sont pas déjà affichés
+      if (!paypalButtonsRendered) {
+        document.getElementById('paypal-button-container').style.display = 'block';
+  
+        // Rendre le bouton PayPal avec le montant du panier
+        renderPayPalButton();
+  
+        // Mettre à jour la variable pour indiquer que les boutons PayPal sont affichés
+        paypalButtonsRendered = true;
+      }
     });
   }
   
+  function hidePayPalButtons() {
+    const paypalButtonContainer = document.getElementById('paypal-button-container');
+    if (paypalButtonContainer) {
+      paypalButtonContainer.style.display = 'none';
+    }
+  }
+
+  function renderPayPalButton() {
+    // Supprimez les anciens boutons PayPal, s'ils existent
+    const oldPayPalButtons = document.querySelectorAll('.paypal-button');
+    oldPayPalButtons.forEach((button) => button.remove());
+  
+    // Récupérez le montant total du panier
+    const cartTotal = cart.getTotal().toFixed(2);
+  
+    // Rendre le nouveau bouton PayPal avec le montant correct
+    paypal.Buttons({
+      createOrder: function (data, actions) {
+        return actions.order.create({
+          purchase_units: [
+            {
+              amount: {
+                value: cartTotal,
+              },
+            },
+          ],
+        });
+      },
+      onApprove: function (data, actions) {
+        return actions.order.capture().then(function (details) {
+          alert('transaction completed by ' + details.payer.name.given);
+        });
+      },
+    }).render('#paypal-button-container');
+  }
+
   if (document.getElementById('place-order')) {
     placeOrder();
   }

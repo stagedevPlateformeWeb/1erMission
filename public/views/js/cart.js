@@ -65,4 +65,5 @@ class Cart {
 
 const cart = new Cart();
 window.cart = cart;
+window.getCartTotal = getCartTotal;
 
