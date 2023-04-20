@@ -1,14 +1,16 @@
+const totalCostElement = document.createElement('h4');
+
+function getTotalCost() {
+  return cart.getTotal();
+}
+function updateTotalCost() {
+  const totalCost = getTotalCost();
+  totalCostElement.innerHTML = `Coût total : ${totalCost.toFixed(2)}€`;
+}  
 function displayCartItems() {
   const cartSummary = document.querySelector('.cart-summary');
   const cartItems = cart.getItems();
 
-  // Créer un élément pour afficher le coût total
-  const totalCostElement = document.createElement('h4');
-  
-  function updateTotalCost() {
-    const totalCost = cart.getTotal();
-    totalCostElement.innerHTML = `Coût total : ${totalCost.toFixed(2)}€`;
-  }
   function updateCartCount() {
     const cartCount = document.getElementById('cart-count');
     const totalCount = cart.getItems().reduce((count, item) => count + item.quantity, 0);
@@ -103,22 +105,17 @@ function displayCartItems() {
         window.location.href = '/login';
         return;
       }
-  
-      // Traitez la commande ici (Stripe ou PayPal)
-      // Utilisez l'API de Stripe ou PayPal
+
   
       // Si le panier est vide, on ne fait rien
       if (cart.getItems().length === 0) {
         return;
       }
-  
-      // Vider le panier
-      cart.clear();
-  
-      alert('Commande passée avec succès !');
-  
-      // Rediriger vers la page d'accueil
-      window.location.href = '/';
+    
+      // Créer une commande
+      await handlePayment();
+
+      
     });
   }
   
