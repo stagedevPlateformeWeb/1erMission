@@ -122,7 +122,7 @@ function displayCartItems() {
   }
     
 
-
+//test
     const paypalButton = document.getElementById('pay-via-paypal');
 
     paypalButton.addEventListener('click', async () => {
