@@ -168,27 +168,6 @@ app.post('/api/checkout', async (req, res) => {
   }
 });
 
-app.get('/ajouter-un-produit', (req, res) => {
-  res.render('addProduct.html');
-});
-
-app.post('/api/add-product', async (req, res) => {
-  if (!req.session.user || req.session.user.role !== 'admin') {
-    return res.status(403).send('Accès refusé');
-  }
-
-  try {
-    const { name, price, description, image_url } = req.body;
-    const connection = await mysql.createConnection(dbConfig);
-    await connection.query('INSERT INTO products (name, price, description, image_url) VALUES (?, ?, ?, ?)', [name, price, description, image_url]);
-    connection.end();
-    res.status(201).send('Produit ajouté avec succès');
-  } catch (error) {
-    console.error('Erreur lors de l\'ajout du produit:', error);
-    res.status(500).send('Erreur lors de l\'ajout du produit');
-  }
-});
-
 app.post('/api/create-checkout-session', async (req, res) => {
   const { lineItems } = req.body;
 
