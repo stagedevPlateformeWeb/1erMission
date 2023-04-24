@@ -8,6 +8,8 @@ const saltRounds = 10;
 const path = require('path');
 const nunjucks = require('nunjucks');
 
+const stripe = require('stripe')('sk_test_51MyZGYLm2HjfbIuBd1bZFwKuM9exAUBnOxXIj1GF9hK93JZWFlbAQ64fMV8inkuETdf8wuEFNw2Z46n1fEryBfGA00yJRqTilN');
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -56,6 +58,18 @@ app.get('/productDetails', (req, res) => {
 
 app.get('/checkout', (req, res) => {
   res.render('checkout.html');
+});
+
+app.get('/success', (req, res) => {
+  res.render('successPayment.html');
+});
+
+app.get('/cancel', (req, res) => {
+  res.render('cancelPayment.html');
+});
+
+app.get('/payment', (req, res) => {
+  res.render('payment.html');
 });
 
 app.get('/api/products', async (req, res) => {
@@ -152,11 +166,26 @@ app.post('/api/checkout', async (req, res) => {
   if (!req.session.user) {
     return res.status(401).send('Veuillez vous connecter pour passer une commande.');
   }
-
-  // Traitez la commande ici (Stripe ou PayPal)
-  // Enregistrez la commande dans la base de données
-  // ...
 });
+
+app.post('/api/create-checkout-session', async (req, res) => {
+  const { lineItems } = req.body;
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: lineItems,
+      mode: 'payment',
+      success_url: 'http://localhost:4000/success',
+      cancel_url: 'http://localhost:4000/cancel'
+    });
+
+    res.json(session);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`API en écoute sur http://localhost:${port}`);
