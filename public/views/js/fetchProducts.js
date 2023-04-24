@@ -1,31 +1,29 @@
 async function fetchProducts(searchQuery = '') {
   try {
-    // Cette partie va êter modifiée pour ajouter l'ajustement de prix (mettre dans l'url le min et le max du prix et l'api fera le filtre avec)
     // Si searchQuery n'est pas fourni, on le récupère depuis l'URL
     if (!searchQuery) {
-      console.log(window.location.search);
       const urlParams = new URLSearchParams(window.location.search);
       searchQuery = urlParams.get('search') || '';
       valeurMin = urlParams.get('min') || '';
       valeurMax = urlParams.get('max') || '';
     }
-    
+
     // Si searchQuery est fourni, on l'ajoute à l'URL
     const url = searchQuery
       ? `http://localhost:4000/api/products?search=${encodeURIComponent(searchQuery)}&min=${encodeURIComponent(valeurMin)}&max=${encodeURIComponent(valeurMax)}`
       : 'http://localhost:4000/api/products';
-      
+
     const response = await fetch(url);
     const products = await response.json();
     const productList = document.querySelector('.product-list');
-    
+
     if (!productList) {
       return;
     }
-    
-  
+
+
     productList.innerHTML = '';
-    
+
     products.forEach((product) => {
       if (product.name === null) {
         product.name = 'Sans nom';
@@ -42,7 +40,7 @@ async function fetchProducts(searchQuery = '') {
       productList.appendChild(productDiv);
       productDiv.addEventListener('click', () => {
         window.location.href = `/productDetails?productId=${product.id}`;
-      });       
+      });
     });
   } catch (error) {
     console.error('Erreur lors de la récupération des produits:', error);

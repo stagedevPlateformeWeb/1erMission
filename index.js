@@ -8,8 +8,6 @@ const saltRounds = 10;
 const path = require('path');
 const nunjucks = require('nunjucks');
 
-const stripe = require('stripe')('sk_test_51MyZGYLm2HjfbIuBd1bZFwKuM9exAUBnOxXIj1GF9hK93JZWFlbAQ64fMV8inkuETdf8wuEFNw2Z46n1fEryBfGA00yJRqTilN');
-
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -60,19 +58,6 @@ app.get('/checkout', (req, res) => {
   res.render('checkout.html');
 });
 
-app.get('/success', (req, res) => {
-  res.render('successPayment.html');
-});
-
-app.get('/cancel', (req, res) => {
-  res.render('cancelPayment.html');
-});
-
-app.get('/payment', (req, res) => {
-  res.render('payment.html');
-});
-
-
 app.get('/api/products', async (req, res) => {
   try {
     const searchQuery = req.query.search;
@@ -119,8 +104,7 @@ app.post('/api/login', async (req, res) => {
       if (match) {
         req.session.user = {
           id: rows[0].id,
-          email: rows[0].email,
-          role: rows[0].role
+          email: rows[0].email
         };
         res.status(200).send('Connexion réussie');
       } else {
@@ -168,45 +152,10 @@ app.post('/api/checkout', async (req, res) => {
   if (!req.session.user) {
     return res.status(401).send('Veuillez vous connecter pour passer une commande.');
   }
-});
 
-app.get('/ajouter-un-produit', (req, res) => {
-  res.render('addProduct.html');
-});
-
-app.post('/api/add-product', async (req, res) => {
-  if (!req.session.user || req.session.user.role !== 'admin') {
-    return res.status(403).send('Accès refusé');
-  }
-
-  try {
-    const { name, price, description, image_url } = req.body;
-    const connection = await mysql.createConnection(dbConfig);
-    await connection.query('INSERT INTO products (name, price, description, image_url) VALUES (?, ?, ?, ?)', [name, price, description, image_url]);
-    connection.end();
-    res.status(201).send('Produit ajouté avec succès');
-  } catch (error) {
-    console.error('Erreur lors de l\'ajout du produit:', error);
-    res.status(500).send('Erreur lors de l\'ajout du produit');
-  }
-});
-
-app.post('/api/create-checkout-session', async (req, res) => {
-  const { lineItems } = req.body;
-
-  try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: lineItems,
-      mode: 'payment',
-      success_url: 'http://localhost:4000/success',
-      cancel_url: 'http://localhost:4000/cancel'
-    });
-
-    res.json(session);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+  // Traitez la commande ici (Stripe ou PayPal)
+  // Enregistrez la commande dans la base de données
+  // ...
 });
 
 app.listen(port, () => {
