@@ -2,7 +2,7 @@ const stripe = Stripe(
     'pk_test_51MyZGYLm2HjfbIuBARSWwaUFK3nqk2GMJOlut1EJENvTkKZv9mBPrmGdPRxrfNIp0KWdrxEWedVH6dt1jLAU42g000hhxMJLgU'
     );
 
-    async function handlePayment() {
+    async function handlePaymentStripe() {
         const lineItems = cart.getItems().map(item => ({
           price_data: {
             currency: 'eur',

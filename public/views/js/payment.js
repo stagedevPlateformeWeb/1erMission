@@ -1,7 +1,7 @@
 const payCardButton = document.getElementById('payCard');
 
 payCardButton.addEventListener('click', async () => {
-    await handlePayment();
+    await handlePaymentStripe();
 });
 
 const payPaypalButton = document.getElementById('payPaypal');
