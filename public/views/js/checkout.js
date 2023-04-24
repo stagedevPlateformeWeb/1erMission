@@ -51,20 +51,6 @@ function displayCartItems() {
       updatePrice();
       updateTotalCost();
       updateCartCount();
-
-      if (newQuantity === 0) {
-        if (confirm("Voulez-vous supprimer ce produit du panier ?")) {
-          cart.removeItem(item.product.id);
-          cartItemDiv.remove();
-        } else {
-          item.quantity = 1;
-          itemQuantity.textContent = 1;
-          cart.updateItemQuantity(item.product.id, 1);
-          updatePrice();
-          updateTotalCost();
-          updateCartCount();
-        }
-      }
     });
 
     incrementBtn.addEventListener('click', () => {
