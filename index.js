@@ -119,7 +119,8 @@ app.post('/api/login', async (req, res) => {
       if (match) {
         req.session.user = {
           id: rows[0].id,
-          email: rows[0].email
+          email: rows[0].email,
+          role: rows[0].role
         };
         res.status(200).send('Connexion réussie');
       } else {
