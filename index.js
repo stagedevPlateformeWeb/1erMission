@@ -68,6 +68,10 @@ app.get('/cancel', (req, res) => {
   res.render('cancelPayment.html');
 });
 
+app.get('/payment', (req, res) => {
+  res.render('payment.html');
+});
+
 
 app.get('/api/products', async (req, res) => {
   try {

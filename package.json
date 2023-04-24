@@ -13,6 +13,7 @@
     "express-session": "^1.17.3",
     "mime": "^3.0.0",
     "mysql2": "^3.2.0",
+    "nodemon": "^2.0.22",
     "nunjucks": "^3.2.3",
     "stripe": "^12.1.1"
   }

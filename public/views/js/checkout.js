@@ -10,12 +10,6 @@ function updateTotalCost() {
 function displayCartItems() {
   const cartSummary = document.querySelector('.cart-summary');
   const cartItems = cart.getItems();
-
-  function updateCartCount() {
-    const cartCount = document.getElementById('cart-count');
-    const totalCount = cart.getItems().reduce((count, item) => count + item.quantity, 0);
-    cartCount.textContent = totalCount;
-  }
   
   cartItems.forEach((item) => {
     const cartItemDiv = document.createElement('div');
@@ -112,9 +106,9 @@ function displayCartItems() {
         return;
       }
     
-      // Créer une commande
-      await handlePayment();
-
+      // redirige vers la page de paiement
+      window.location.href = '/payment';
+    
       
     });
   }
