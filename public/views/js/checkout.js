@@ -96,7 +96,7 @@ function displayCartItems() {
   }
   
   async function placeOrder() {
-    const placeOrderButton = document.getElementById('place-order');
+    const placeOrderButton = document.getElementById('pay-via-paypal');
   
     placeOrderButton.addEventListener('click', async () => {
       // Vérifier si l'utilisateur est connecté
