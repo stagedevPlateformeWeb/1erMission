@@ -1,22 +1,15 @@
-let paypalButtonsRendered = false;
+const totalCostElement = document.createElement('h4');
 
-
+function getTotalCost() {
+  return cart.getTotal();
+}
+function updateTotalCost() {
+  const totalCost = getTotalCost();
+  totalCostElement.innerHTML = `Coût total : ${totalCost.toFixed(2)}€`;
+}  
 function displayCartItems() {
   const cartSummary = document.querySelector('.cart-summary');
   const cartItems = cart.getItems();
-
-  // Créer un élément pour afficher le coût total
-  const totalCostElement = document.createElement('h4');
-  
-  function updateTotalCost() {
-    const totalCost = cart.getTotal();
-    totalCostElement.innerHTML = `Coût total : ${totalCost.toFixed(2)}€`;
-  }
-  function updateCartCount() {
-    const cartCount = document.getElementById('cart-count');
-    const totalCount = cart.getItems().reduce((count, item) => count + item.quantity, 0);
-    cartCount.textContent = totalCount;
-  }
   
   cartItems.forEach((item) => {
     const cartItemDiv = document.createElement('div');
@@ -96,7 +89,6 @@ function displayCartItems() {
   }
   
   async function placeOrder() {
-    
     const placeOrderButton = document.getElementById('place-order');
   
     placeOrderButton.addEventListener('click', async () => {
@@ -119,78 +111,6 @@ function displayCartItems() {
     
       
     });
-  }
-    
-
-
-    const paypalButton = document.getElementById('pay-via-paypal');
-
-    paypalButton.addEventListener('click', async () => {
-      // Vérifier si l'utilisateur est connecté
-      const loggedIn = await isLoggedIn();
-      if (!loggedIn) {
-        alert('Veuillez vous connecter pour passer une commande.');
-        window.location.href = '/login';
-        return;
-      }
-  
-      // Si le panier est vide, afficher un message d'alerte et ne rien faire
-      if (cart.getItems().length === 0) {
-        alert("Votre panier est vide. Veuillez ajouter des articles avant de passer une commande.");
-        return;
-      }
-  
-      // Afficher le bouton PayPal pour procéder au paiement si les boutons PayPal ne sont pas déjà affichés
-      if (!paypalButtonsRendered) {
-        document.getElementById('paypal-button-container').style.display = 'block';
-  
-        // Rendre le bouton PayPal avec le montant du panier
-        renderPayPalButton();
-  
-        // Mettre à jour la variable pour indiquer que les boutons PayPal sont affichés
-        paypalButtonsRendered = true;
-      }
-    });
-
-  
-  function hidePayPalButtons() {
-    const paypalButtonContainer = document.getElementById('paypal-button-container');
-    if (paypalButtonContainer) {
-      paypalButtonContainer.style.display = 'none';
-    }
-  }
-
-  function renderPayPalButton() {
-    // Supprimez les anciens boutons PayPal, s'ils existent
-    const oldPayPalButtons = document.querySelectorAll('.paypal-button');
-    oldPayPalButtons.forEach((button) => button.remove());
-  
-    // Récupérez le montant total du panier
-    const cartTotal = cart.getTotal().toFixed(2);
-  
-    // Rendre le nouveau bouton PayPal avec le montant correct
-    paypal.Buttons({
-      createOrder: function (data, actions) {
-        return actions.order.create({
-          purchase_units: [
-            {
-              amount: {
-                value: cartTotal,
-              },
-            },
-          ],
-        });
-      },
-      onApprove: function (data, actions) {
-        return actions.order.capture().then(function (details) {
-          alert('transaction completed by ' + details.payer.name.given);
-        });
-      },
-    }).render('#paypal-button-container');
-  }
-
-  if (document.getElementById('place-order')) {
-    placeOrder();
   }
   
   if (document.querySelector('.cart-summary')) {
