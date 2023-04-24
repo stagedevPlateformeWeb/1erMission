@@ -8,14 +8,11 @@ const saltRounds = 10;
 const path = require('path');
 const nunjucks = require('nunjucks');
 
-
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-
 const port = 4000;
-
 
 const dbConfig = {
   host: 'mysql-ismail.alwaysdata.net',
@@ -24,14 +21,12 @@ const dbConfig = {
   database: 'ismail_prototype_db'
 };
 
-
 app.use(session({
   secret: 'MDP',
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 heures
 }));
-
 
 nunjucks.configure([
   path.join(__dirname, 'public'),
@@ -41,13 +36,11 @@ nunjucks.configure([
   express: app,
 });
 
-
 app.use(express.static(path.join(__dirname, 'public/views'), {
   setHeaders: (res, filePath) => {
     res.setHeader('Content-Type', mime.getType(filePath));
   }
 }));
-
 
 app.get('/', (req, res) => {
   res.render('index.html');
@@ -64,7 +57,6 @@ app.get('/productDetails', (req, res) => {
 app.get('/checkout', (req, res) => {
   res.render('checkout.html');
 });
-
 
 app.get('/api/products', async (req, res) => {
   try {
@@ -100,21 +92,11 @@ app.get('/api/products/:productId', async (req, res) => {
 });
 
 
-function isAdmin(req, res, next) {
-  if (req.session && req.session.user && req.session.user.role === 'admin') {
-    return next();
-  } else {
-    res.redirect('/login');
-  }
-}
-
-
 // Route pour se connecter
 app.post('/api/login', async (req, res) => {
   try {
     const connection = await mysql.createConnection(dbConfig);
     const [rows] = await connection.query('SELECT * FROM users WHERE email = ?', [req.body.email]);
-    console.log('User data from database:', rows[0]);
     if (rows.length === 0) {
       res.status(401).send('Email ou mot de passe incorrect');
     } else {
@@ -122,8 +104,7 @@ app.post('/api/login', async (req, res) => {
       if (match) {
         req.session.user = {
           id: rows[0].id,
-          email: rows[0].email,
-          role: rows[0].role
+          email: rows[0].email
         };
         res.status(200).send('Connexion réussie');
       } else {
@@ -136,7 +117,6 @@ app.post('/api/login', async (req, res) => {
     res.status(500).send('Erreur lors de la connexion');
   }
 });
-
 
 // Route pour s'inscrire
 app.post('/api/signup', async (req, res) => {
@@ -152,7 +132,6 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
-
 // Route pour vérifier si un utilisateur est connecté
 app.get('/api/isLoggedIn', (req, res) => {
   if (req.session.user) {
@@ -162,13 +141,11 @@ app.get('/api/isLoggedIn', (req, res) => {
   }
 });
 
-
 // Route pour la déconnexion
 app.get('/api/logout', (req, res) => {
   req.session.destroy();
   res.status(200).send('Déconnexion réussie');
 });
-
 
 // Route pour passer une commande
 app.post('/api/checkout', async (req, res) => {
@@ -180,29 +157,6 @@ app.post('/api/checkout', async (req, res) => {
   // Enregistrez la commande dans la base de données
   // ...
 });
-
-app.get('/ajouter-un-produit', (req, res) => {
-  res.render('addProduct.html');
-});
-
-app.post('/api/add-product', async (req, res) => {
-  if (!req.session.user || req.session.user.role !== 'admin') {
-    return res.status(403).send('Accès refusé');
-  }
-
-  try {
-    const { name, price, description, image_url } = req.body;
-    const connection = await mysql.createConnection(dbConfig);
-    await connection.query('INSERT INTO products (name, price, description, image_url) VALUES (?, ?, ?, ?)', [name, price, description, image_url]);
-    connection.end();
-    res.status(201).send('Produit ajouté avec succès');
-  } catch (error) {
-    console.error('Erreur lors de l\'ajout du produit:', error);
-    res.status(500).send('Erreur lors de l\'ajout du produit');
-  }
-});
-
-
 
 app.listen(port, () => {
   console.log(`API en écoute sur http://localhost:${port}`);
