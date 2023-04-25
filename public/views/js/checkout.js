@@ -1,4 +1,5 @@
 const totalCostElement = document.createElement('h4');
+let paypalButtonsRendered = false;
 
 function getTotalCost() {
   return cart.getTotal();
