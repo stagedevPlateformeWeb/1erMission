@@ -7,6 +7,19 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const path = require('path');
 const nunjucks = require('nunjucks');
+const { Pool } = require('pg');
+
+
+//Base de données pour les métriques
+const clickDbConfig = {
+  host: 'postgresql-ismail.alwaysdata.net',
+  user: 'ismail',
+  password: 'Prototype13!',
+  database: 'ismail_clicks',
+};
+
+
+const clickPgPool = new Pool(clickDbConfig);
 
 const stripe = require('stripe')('sk_test_51MyZGYLm2HjfbIuBd1bZFwKuM9exAUBnOxXIj1GF9hK93JZWFlbAQ64fMV8inkuETdf8wuEFNw2Z46n1fEryBfGA00yJRqTilN');
 
@@ -22,6 +35,8 @@ const dbConfig = {
   password: 'Prototype13?',
   database: 'ismail_prototype_db'
 };
+
+
 
 app.use(session({
   secret: 'MDP',
@@ -183,6 +198,40 @@ app.post('/api/create-checkout-session', async (req, res) => {
     res.json(session);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/clicks', async (req, res) => {
+  try {
+    const { productId } = req.body;
+    const client = await clickPgPool.connect();
+    const result = await client.query('INSERT INTO suivi_clicks (product_id, clikc_timestamp) VALUES ($1, NOW())', [productId]);
+    client.release();
+    res.status(200).send('Click enregistré');
+  } catch (error) {
+    console.error('Erreur lors de l\'enregistrement du clic:', error);
+    res.status(500).send('Erreur lors de l\'enregistrement du clic');
+  }
+});
+
+
+app.get('/api/clicks/:productId', async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    if (!productId) {
+      return res.status(400).send({ error: 'productId is required' });
+    }
+
+    const client = await clickPgPool.connect();
+    const selectQuery = 'SELECT COUNT(*) as count FROM suivi_clicks WHERE product_id = $1';
+    const { rows } = await client.query(selectQuery, [productId]);
+    client.release();
+
+    res.status(200).send({ productId, clicks: rows[0].count });
+  } catch (error) {
+    console.error('Error fetching clicks:', error);
+    res.status(500).send({ error: 'Internal server error' });
   }
 });
 
