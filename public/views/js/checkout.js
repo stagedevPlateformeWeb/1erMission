@@ -88,6 +88,16 @@ function displayCartItems() {
     const { isLoggedIn } = await response.json();
     return isLoggedIn;
   }
+
+
+//récuperer panier si abandonné
+  window.addEventListener('beforeunload', (event) => {
+  // Vérifie si l'utilisateur est connecté et s'il y a des articles dans le panier
+  if (IsLoggedIn() && cart.getItems().length > 0) {
+    saveAbandonedCart(userEmail, cart.getItems());
+  }
+  });
+
   
  async function placeOrder() {
     

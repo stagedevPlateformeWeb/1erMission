@@ -8,6 +8,7 @@ const saltRounds = 10;
 const path = require('path');
 const nunjucks = require('nunjucks');
 
+const {Client} = require('pg');
 const stripe = require('stripe')('sk_test_51MyZGYLm2HjfbIuBd1bZFwKuM9exAUBnOxXIj1GF9hK93JZWFlbAQ64fMV8inkuETdf8wuEFNw2Z46n1fEryBfGA00yJRqTilN');
 
 const app = express();
@@ -186,6 +187,28 @@ app.post('/api/create-checkout-session', async (req, res) => {
   }
 });
 
+// Route pour recuperer panier abandonné
+app.post('/api/save-abandoned-cart', async (req, res) => {
+  const { userEmail, cartItems } = req.body;
+
+  try {
+    const client = new Client({ connectionString: dbConfig });
+    await client.connect();
+
+    const query = `
+      INSERT INTO abandoned_cart (user_email, cart_products)
+      VALUES ($1, $2)
+    `;
+
+    await client.query(query, [userEmail, JSON.stringify(cartItems)]);
+    await client.end();
+
+    res.status(200).send('Panier abandonné sauvegardé');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Erreur lors de la sauvegarde du panier abandonné');
+  }
+});
 
 app.listen(port, () => {
   console.log(`API en écoute sur http://localhost:${port}`);
