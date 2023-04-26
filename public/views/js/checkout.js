@@ -81,7 +81,6 @@ function displayCartItems() {
   cartSummary.appendChild(totalCostElement);
 
 }
-
  async function placeOrder() {
     
     const placeOrderButton = document.getElementById('place-order');
@@ -110,9 +109,8 @@ function displayCartItems() {
     });
   }
     
-    
   //recuperer panier si abandonné
-  beforeUnload(orderBool);
+    beforeUnload(orderBool);
 
 
 

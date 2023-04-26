@@ -25,9 +25,8 @@ async function saveAbandonedCart(userEmail, cartItems) {
     const { isLoggedIn } = await response.json();
     return isLoggedIn;
   }
-  
 
-  async function beforeUnload(orderBool){
+  async function beforeUnload(){
     //récuperer email utilisateur
     const userEmail = await getUserEmail();
 

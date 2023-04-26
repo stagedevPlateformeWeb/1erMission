@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const payCardButton = document.getElementById('payCard');
-  
     if (payCardButton) {
       payCardButton.addEventListener('click', async () => {
         orderBool = true;
@@ -9,6 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   
     // Récupérer le panier si abandonné
-    await beforeUnload(orderBool);
-  });
+    beforeUnload();
+});
   

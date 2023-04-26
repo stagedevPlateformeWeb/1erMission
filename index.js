@@ -216,11 +216,11 @@ app.post('/api/save-abandoned-cart', async (req, res) => {
     // requete pour inserer email et produits du panier abandonné sous format json
     // si l'email existe deja dans la bd, on met à jour le panier abandonné
     const query = `
-      INSERT INTO abandoned_cart (user_email, cart_products)
-      VALUES ($1, $2::json)
-      ON CONFLICT (user_email)
-      DO UPDATE SET cart_products = EXCLUDED.cart_products;
-    `;
+    INSERT INTO abandoned_cart (user_email, cart_products)
+    VALUES ($1, $2::json)
+    ON CONFLICT (user_email)
+    DO UPDATE SET cart_products = EXCLUDED.cart_products, created_at = NOW();
+  `;  
 
     await client.query(query, [userEmail, JSON.stringify(cartItems)]);
     client.release();
