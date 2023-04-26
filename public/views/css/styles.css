@@ -344,6 +344,7 @@ input[type="number"] {
   width: 500px;
   height: 500px;
   display: flex;
+  margin: auto;
   justify-content: center;
   /*  box-shadow is from materialize css's website */
   box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
@@ -380,3 +381,5 @@ input[type="number"] {
 #bouton-gauche {
   margin: auto -2em auto 0;
 }
+
+
