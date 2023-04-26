@@ -1,10 +1,14 @@
-const payCardButton = document.getElementById('payCard');
-
-let orderBool = false;
-payCardButton.addEventListener('click', async () => {
-    orderBool = true;   
-    await handlePaymentStripe();
-});
-
-  //recuperer panier si abandonné
-  beforeUnload(orderBool);
+document.addEventListener('DOMContentLoaded', async () => {
+    const payCardButton = document.getElementById('payCard');
+  
+    if (payCardButton) {
+      payCardButton.addEventListener('click', async () => {
+        orderBool = true;
+        await handlePaymentStripe();
+      });
+    }
+  
+    // Récupérer le panier si abandonné
+    await beforeUnload(orderBool);
+  });
+  

@@ -8,7 +8,7 @@ const saltRounds = 10;
 const path = require('path');
 const nunjucks = require('nunjucks');
 
-const {Client} = require('pg');
+const { Client, Pool } = require('pg');
 const stripe = require('stripe')('sk_test_51MyZGYLm2HjfbIuBd1bZFwKuM9exAUBnOxXIj1GF9hK93JZWFlbAQ64fMV8inkuETdf8wuEFNw2Z46n1fEryBfGA00yJRqTilN');
 
 const app = express();
@@ -23,6 +23,14 @@ const dbConfig = {
   password: 'Prototype13?',
   database: 'ismail_prototype_db'
 };
+
+const dbConfigPostgres = {
+  host: 'postgresql-ismail.alwaysdata.net',
+  user: 'ismail',
+  password: 'Prototype13!',
+  database: 'ismail_prototype'
+};
+const pgPool = new Pool(dbConfigPostgres);
 
 app.use(session({
   secret: 'MDP',
@@ -187,21 +195,35 @@ app.post('/api/create-checkout-session', async (req, res) => {
   }
 });
 
-// Route pour recuperer panier abandonné
+// Route pour récupérer l'email de l'utilisateur
+app.get('/api/getUserEmail', async (req, res) => {
+  // Vérifiez si un utilisateur est connecté
+  if (req.session && req.session.user) {
+    res.json({ userEmail: req.session.user.email });
+  } else {
+    res.json({ userEmail: null });
+  }
+});
+
+
+// Route pour récupérer panier abandonné
 app.post('/api/save-abandoned-cart', async (req, res) => {
   const { userEmail, cartItems } = req.body;
 
   try {
-    const client = new Client({ connectionString: dbConfig });
-    await client.connect();
+    const client = await pgPool.connect();
 
+    // requete pour inserer email et produits du panier abandonné sous format json
+    // si l'email existe deja dans la bd, on met à jour le panier abandonné
     const query = `
       INSERT INTO abandoned_cart (user_email, cart_products)
-      VALUES ($1, $2)
+      VALUES ($1, $2::json)
+      ON CONFLICT (user_email)
+      DO UPDATE SET cart_products = EXCLUDED.cart_products;
     `;
 
     await client.query(query, [userEmail, JSON.stringify(cartItems)]);
-    await client.end();
+    client.release();
 
     res.status(200).send('Panier abandonné sauvegardé');
   } catch (error) {
@@ -209,6 +231,8 @@ app.post('/api/save-abandoned-cart', async (req, res) => {
     res.status(500).send('Erreur lors de la sauvegarde du panier abandonné');
   }
 });
+
+
 
 app.listen(port, () => {
   console.log(`API en écoute sur http://localhost:${port}`);
