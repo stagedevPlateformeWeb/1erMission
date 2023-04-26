@@ -13,3 +13,13 @@ async function saveAbandonedCart(userEmail, cartItems) {
     }
   }
   
+
+  function beforeUnload(orderBool){
+    //récuperer panier si abandonné
+    window.addEventListener('beforeunload', (event) => {
+      // Vérifie si l'utilisateur est connecté et s'il y a des articles dans le panier
+      if (IsLoggedIn() && cart.getItems().length > 0 && orderBool === false) {
+        saveAbandonedCart(userEmail, cart.getItems());
+      }
+    });
+  }

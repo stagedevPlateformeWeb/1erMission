@@ -1,5 +1,6 @@
 const totalCostElement = document.createElement('h4');
 let paypalButtonsRendered = false;
+let orderBool = false;
 
 function getTotalCost() {
   return cart.getTotal();
@@ -88,16 +89,6 @@ function displayCartItems() {
     const { isLoggedIn } = await response.json();
     return isLoggedIn;
   }
-
-
-//récuperer panier si abandonné
-  window.addEventListener('beforeunload', (event) => {
-  // Vérifie si l'utilisateur est connecté et s'il y a des articles dans le panier
-  if (IsLoggedIn() && cart.getItems().length > 0) {
-    saveAbandonedCart(userEmail, cart.getItems());
-  }
-  });
-
   
  async function placeOrder() {
     
@@ -118,6 +109,8 @@ function displayCartItems() {
         return;
       }
     
+      // passer a true 
+      orderBool = true;
       // redirige vers la page de paiement
       window.location.href = '/payment';
     
@@ -192,6 +185,11 @@ function displayCartItems() {
       },
     }).render('#paypal-button-container');
   }
+
+  
+  //recuperer panier si abandonné
+  beforeUnload(orderBool);
+
   
   if (document.querySelector('.cart-summary')) {
     displayCartItems();
