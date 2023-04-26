@@ -94,15 +94,8 @@ function displayCartItems() {
     const placeOrderButton = document.getElementById('place-order');
   
     placeOrderButton.addEventListener('click', async () => {
-      // Vérifier si l'utilisateur est connecté
-      const loggedIn = await isLoggedIn();
-      if (!loggedIn) {
-        alert('Veuillez vous connecter pour passer une commande.');
-        window.location.href = '/login';
-        return;
-      }
+      
 
-  
       // Si le panier est vide, on ne fait rien
       if (cart.getItems().length === 0) {
         return;

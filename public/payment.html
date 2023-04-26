@@ -9,6 +9,45 @@ Paiements
         <button id="payCard">Payer par carte bancaire</button>
         <button id="payPaypal">Payer par Paypal</button>
     </section>
+    <section id="user-data-form">
+        <input type="text" id="nom" placeholder="Nom">
+        <input type="text" id="prenom" placeholder="Prénom">
+        <input type="email" id="email" placeholder="Email">
+    </section>
 {% endblock %}
 
+{% block scripts %}
+<script>
+   nomInput.addEventListener('input', () => onInputChange(nomInput, 'nom'));
+  prenomInput.addEventListener('input', () => onInputChange(prenomInput, 'prenom'));
+  emailInput.addEventListener('input', () => onInputChange(emailInput, 'email'));
+  const saveUserData = async (nom, prenom, email) => {
+    const response = await fetch('/api/save-user-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ nom, prenom, email })
+    });
 
+    if (response.status !== 201) {
+      console.error('Erreur lors de l\'enregistrement des données utilisateur');
+    }
+  };
+
+  const onInputChange = (input, fieldName) => {
+    if (input.value) {
+      const userData = {
+        nom: fieldName === 'nom' ? input.value : nomInput.value,
+        prenom: fieldName === 'prenom' ? input.value : prenomInput.value,
+        email: fieldName === 'email' ? input.value : emailInput.value,
+      };
+      saveUserData(userData.nom, userData.prenom, userData.email);
+    }
+  };
+
+  nomInput.addEventListener('change', () => onInputChange(nomInput, 'nom'));
+  prenomInput.addEventListener('change', () => onInputChange(prenomInput, 'prenom'));
+  emailInput.addEventListener('change', () => onInputChange(emailInput, 'email'));
+</script>
+{% endblock %}

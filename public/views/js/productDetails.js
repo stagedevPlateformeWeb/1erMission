@@ -20,14 +20,15 @@ async function fetchProductDetails() {
     }
     
     productDetails.innerHTML = `
-      <h2>${product.name}</h2>
-      <img src="${product.image_url}" alt="${product.name}" width="300" height="300">
-      <label>Prix: ${product.price}€</label>
-      <div class="description<label>Description:</label>
-      <p>${product.description}</p>
-      </div>
-      <button id="add-to-cart">Ajouter au panier</button>
-    `;
+  <h2>${product.name}</h2>
+  <img src="${product.image_url}" alt="${product.name}" width="300" height="300">
+  <label>Prix: ${product.price}€</label>
+  <div class="description">
+    <label>Description:</label>
+    <p>${product.description}</p>
+  </div>
+  <button id="add-to-cart">Ajouter au panier</button>
+`;
     
     const addToCartButton = document.getElementById('add-to-cart');
     addToCartButton.addEventListener('click', () => {

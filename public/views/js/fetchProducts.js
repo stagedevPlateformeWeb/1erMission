@@ -1,3 +1,7 @@
+/**
+ * Fonction asynchrone pour récupérer les produits à partir de l'API et les afficher.
+ * @param {string} searchQuery - La chaîne de recherche facultative pour filtrer les produits.
+ */
 async function fetchProducts(searchQuery = '') {
   try {
     if (!searchQuery) {
@@ -58,11 +62,18 @@ async function fetchProducts(searchQuery = '') {
   }
 }
 
+/**
+ * Met à jour le nombre d'articles dans le panier en fonction des éléments du panier.
+ */
 function updateCartCount() {
   const cartCount = document.getElementById('cart-count');
   const totalCount = cart.getItems().reduce((count, item) => count + item.quantity, 0);
   cartCount.textContent = totalCount;
 }
 
+
+// Appelle la fonction fetchProducts pour récupérer et afficher les produits.
 fetchProducts();
+
+// Appelle la fonction updateCartCount pour mettre à jour le nombre d'articles dans le panier.
 updateCartCount();
