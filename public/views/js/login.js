@@ -1,8 +1,19 @@
+/**
+ * When the DOM content is loaded, this function adds event listeners to the login and signup forms
+ * to handle form submissions and perform user authentication or registration.
+ * @listens DOMContentLoaded
+ */
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('login-form');
   const signupForm = document.getElementById('signup-form');
 
   if (loginForm) {
+      /**
+     * Handles the login form submission and attempts to authenticate the user.
+     * If successful, redirects to the home page, otherwise displays an error message.
+     * @async
+     * @param {Event} e - The submit event.
+     */
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = loginForm.email.value;
@@ -31,6 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (signupForm) {
+      /**
+     * Handles the signup form submission and attempts to register the user.
+     * If successful, redirects to the home page, otherwise displays an error message.
+     * @async
+     * @param {Event} e - The submit event.
+     */
     signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = signupForm.email.value;
