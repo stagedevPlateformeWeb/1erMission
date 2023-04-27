@@ -3,7 +3,7 @@
  * @module app
  */
 const express = require('express');
-const { Pool } = require('pg');
+const { Client, Pool } = require('pg');
 const cors = require('cors');
 const mime = require('mime');
 const session = require('express-session');
@@ -40,7 +40,6 @@ const clickDbConfig = {
 
 const clickPgPool = new Pool(clickDbConfig);
 
-const { Client, Pool } = require('pg');
 const stripe = require('stripe')('sk_test_51MyZGYLm2HjfbIuBd1bZFwKuM9exAUBnOxXIj1GF9hK93JZWFlbAQ64fMV8inkuETdf8wuEFNw2Z46n1fEryBfGA00yJRqTilN');
 
 

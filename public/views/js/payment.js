@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', async () => {
  */
   const payCardButton = document.getElementById('payCard');
   if (payCardButton) {
+    /**
+     * Event listener for the "Pay with card" button click event.
+     * Initiates the Stripe payment process.
+     */
     payCardButton.addEventListener('click', async () => {
       orderBool = true;
       await handlePaymentStripe();
@@ -12,14 +16,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Récupérer le panier si abandonné
   beforeUnload();
-});
-
-/**
- * Event listener for the "Pay with card" button click event.
- * Initiates the Stripe payment process.
- */
-payCardButton.addEventListener('click', async () => {
-    await handlePaymentStripe();
 });
 
 
