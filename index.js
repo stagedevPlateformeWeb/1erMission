@@ -59,13 +59,6 @@ const port = 4000;
  * Database configuration for products and users.
  * @type {Object}
  */
-const dbConfig = {
-  host: 'postgresql-ismail.alwaysdata.net',
-  user: 'ismail',
-  password: 'Prototype13!',
-  database: 'ismail_prototype'
-};
-
 const dbConfigPostgres = {
   host: 'postgresql-ismail.alwaysdata.net',
   user: 'ismail',
@@ -125,6 +118,14 @@ app.get('/cancel', (req, res) => {
 
 app.get('/payment', (req, res) => {
   res.render('payment.html');
+});
+
+app.get('/paymentInterface', (req, res) => {
+  res.render('interfacePaiements.html');
+});
+
+app.get('/informations', (req, res) => {
+  res.render('infosClients.html');
 });
 
 
@@ -193,6 +194,8 @@ app.post('/api/login', async (req, res) => {
   req.session.user = {
   id: rows[0].id,
   email: rows[0].email,
+  name: rows[0].name,
+  first_name: rows[0].first_name,
   ip_address: userIpAddress // Ajoutez cette ligne
   };
   res.status(200).send('Connexion réussie');
@@ -217,7 +220,7 @@ app.post('/api/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     const userIpAddress = requestIp.getClientIp(req);
     const client = await pgPool.connect();
-    await client.query('INSERT INTO users (email, password, ip_address) VALUES ($1, $2, $3)', [req.body.email, hashedPassword, userIpAddress]);
+    await client.query('INSERT INTO users (email, name, first_name, password, ip_address) VALUES ($1, $2, $3, $4, $5)', [req.body.email, req.body.name, req.body.first_name, hashedPassword, userIpAddress]);
     client.release();
     res.status(201).send('Inscription réussie');
   } catch (error) {
@@ -277,12 +280,18 @@ app.post('/api/create-checkout-session', async (req, res) => {
 });
 
 // Route pour récupérer l'email de l'utilisateur
-app.get('/api/getUserEmail', async (req, res) => {
+app.get('/api/getUserInfo', async (req, res) => {
   // Vérifiez si un utilisateur est connecté
   if (req.session && req.session.user) {
-    res.json({ userEmail: req.session.user.email });
+    res.json({ userEmail: req.session.user.email,
+               userName: req.session.user.name,
+               userFirstName: req.session.user.first_name,
+             });
   } else {
-    res.json({ userEmail: null });
+    res.json({ userEmail: null,
+                userName: null,
+                userFirstName: null
+             });
   }
 });
 

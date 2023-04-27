@@ -127,14 +127,14 @@ async function isLoggedIn() {
       // passer a true 
       orderBool = true;
       // redirige vers la page de paiement
-      window.location.href = '/payment';
+      window.location.href = '/paymentInterface';
     
       
     });
   }
     
   //recuperer panier si abandonné
-    beforeUnload(orderBool);
+    beforeUnload();
 
 
 

@@ -13,10 +13,10 @@ async function saveAbandonedCart(userEmail, cartItems) {
     }
   }
 
-  async function getUserEmail() {
-    const response = await fetch('/api/getUserEmail');
-    const { userEmail } = await response.json();
-    return userEmail;
+  async function getUserInfo() {
+    const response = await fetch('/api/getUserInfo');
+    const { userEmail, userName, userFirstName } = await response.json();
+    return { userEmail, userName, userFirstName };
   }
   
 
@@ -25,16 +25,17 @@ async function saveAbandonedCart(userEmail, cartItems) {
     const { isLoggedIn } = await response.json();
     return isLoggedIn;
   }
-
-  async function beforeUnload(){
-    //récuperer email utilisateur
-    const userEmail = await getUserEmail();
-
-    //récuperer panier si abandonné
-    window.addEventListener('beforeunload', (event) => {
+  async function beforeUnload() {
+    // récupérer l'email de l'utilisateur
+    const userEmail = await getUserInfo().userEmail;
+  
+    // récupérer le panier si abandonné
+    window.addEventListener('beforeunload', async (event) => {
       // Vérifie si l'utilisateur est connecté et s'il y a des articles dans le panier
-      if (isLoggedIn() && cart.getItems().length > 0 && orderBool === false) {
+      const loggedIn = await isLoggedIn();
+      if (loggedIn && cart.getItems().length > 0 && orderBool===false) {
         saveAbandonedCart(userEmail, cart.getItems());
       }
     });
   }
+  
