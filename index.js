@@ -18,6 +18,7 @@ const infosUtilisateurs = {
   database: 'ismail_panier_abandonne',
 };
 
+const infosUtilisateursPool = new Pool(infosUtilisateurs);
 
 //Base de données pour les métriques
 const clickDbConfig = {
@@ -261,8 +262,8 @@ app.post('/api/save-user-data', async (req, res) => {
       return;
     }
 
-    const client = await pgPool.connect();
-    await client.query('INSERT INTO users_data (nom, prenom, email) VALUES ($1, $2, $3)', [nom, prenom, email]);
+    const client = await infosUtilisateursPool.connect();
+    await client.query('INSERT INTO infos_utilisateur (nom, prenom, email) VALUES ($1, $2, $3)', [nom, prenom, email]);
     client.release();
     res.status(201).send('Données enregistrées avec succès');
   } catch (error) {
