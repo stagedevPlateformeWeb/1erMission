@@ -1,11 +1,9 @@
 /**
-Cette fonction met à jour l'état de connexion de l'utilisateur en effectuant une requête asynchrone
-vers l'API '/api/isLoggedIn'. Si l'utilisateur est connecté, la fonction affiche un bouton de déconnexion
-et les informations utilisateur. Sinon, elle affiche un bouton de connexion.
-@function updateLoginStatus
-@async
-@returns {Promise<void>} Ne retourne rien.
-*/
+ * Asynchronously updates the login status on the page.
+ * Displays the user email and a logout button if the user is logged in,
+ * otherwise displays a login button.
+ * @async
+ */
 async function updateLoginStatus() {
     const response = await fetch('/api/isLoggedIn');
     const { isLoggedIn, user } = await response.json();
@@ -35,5 +33,6 @@ async function updateLoginStatus() {
     }
   }
 
-// Appelle la fonction updateLoginStatus pour mettre à jour l'état de connexion de l'utilisateur
+
+// Call the function to update the login status on page load.
 updateLoginStatus();

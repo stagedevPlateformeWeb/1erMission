@@ -1,3 +1,8 @@
+/**
+ * Fetches the product details from the API and displays them on the page.
+ * Also handles adding the product to the cart.
+ * @async
+ */
 async function fetchProductDetails() {
   const productId = new URLSearchParams(window.location.search).get('productId');
   const clicksKey = `clicks_${productId}`;
@@ -8,7 +13,8 @@ async function fetchProductDetails() {
     const response = await fetch(`http://localhost:4000/api/products/${productId}`);
     const product = await response.json();
     const productDetails = document.querySelector('.product-details');
-    
+   
+   
     if (product.description === null) {
       product.description = 'Aucune description disponible';
     } else if (product.name === null) {
@@ -40,10 +46,16 @@ async function fetchProductDetails() {
       }
       }
       
+
+       // Retrieve the product ID from the URL and call the fetchProductDetails() function
       if (new URLSearchParams(window.location.search).get('productId')) {
       fetchProductDetails();
       }
       
+
+     /**
+ * Updates the number of items in the cart displayed on the page.
+ */
       function updateCartCount() {
       const cartCount = document.getElementById('cart-count');
       const totalCount = cart.getItems().reduce((count, item) => count + item.quantity, 0);

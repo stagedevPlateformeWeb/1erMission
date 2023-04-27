@@ -1,3 +1,7 @@
+/**
+ * An Express application that provides an API for an e-commerce website.
+ * @module app
+ */
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
@@ -10,7 +14,10 @@ const nunjucks = require('nunjucks');
 const requestIp = require('request-ip');
 
 
-//Base de données pour stocker les infos utilisateurs
+/**
+ * Database configuration for user information.
+ * @type {Object}
+ */
 const infosUtilisateurs = {
   host: 'postgresql-ismail.alwaysdata.net',
   user: 'ismail',
@@ -20,7 +27,10 @@ const infosUtilisateurs = {
 
 const infosUtilisateursPool = new Pool(infosUtilisateurs);
 
-//Base de données pour les métriques
+/**
+ * Database configuration for stats
+ * @type {Object}
+ */
 const clickDbConfig = {
   host: 'postgresql-ismail.alwaysdata.net',
   user: 'ismail',
@@ -32,12 +42,23 @@ const clickPgPool = new Pool(clickDbConfig);
 
 const stripe = require('stripe')('sk_test_51MyZGYLm2HjfbIuBd1bZFwKuM9exAUBnOxXIj1GF9hK93JZWFlbAQ64fMV8inkuETdf8wuEFNw2Z46n1fEryBfGA00yJRqTilN');
 
+
+/**
+ * Express application instance.
+ * @type {Express}
+ */
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
 const port = 4000;
 
+
+/**
+ * Database configuration for products and users.
+ * @type {Object}
+ */
 const dbConfig = {
   host: 'postgresql-ismail.alwaysdata.net',
   user: 'ismail',
@@ -54,6 +75,10 @@ app.use(session({
   cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 heures
 }));
 
+
+/**
+ * Configure nunjucks to render HTML files.
+ */
 nunjucks.configure([
   path.join(__dirname, 'public'),
   path.join(__dirname, 'public', 'views')
@@ -97,6 +122,11 @@ app.get('/payment', (req, res) => {
 });
 
 
+
+/**
+ * API endpoint for fetching all products.
+ * @route {GET} /api/products
+ */
 app.get('/api/products', async (req, res) => {
   try {
     const searchQuery = req.query.search;
@@ -123,6 +153,10 @@ const { rows } = await connection.query(query, queryParams);
     });
 
 
+ /**
+ * API endpoint for fetching product details.
+ * @route {GET} /api/products/:productId
+ */   
   app.get('/api/products/:productId', async (req, res) => {
      try {
      const client = await pgPool.connect();
@@ -136,7 +170,10 @@ const { rows } = await connection.query(query, queryParams);
       });
 
 
-// Route pour se connecter
+/**
+ * API endpoint for logging in.
+ * @route {POST} /api/login
+ */
 app.post('/api/login', async (req, res) => {
   try {
   const client = await pgPool.connect();
@@ -164,7 +201,11 @@ app.post('/api/login', async (req, res) => {
   }
   });
 
-// Route pour s'inscrire
+
+/**
+ * API endpoint for signing up.
+ * @route {POST} /api/signup
+ */
 app.post('/api/signup', async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
@@ -179,8 +220,11 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
-// Route pour vérifier si un utilisateur est connecté
-app.get('/api/isLoggedIn', (req, res) => {
+
+/**
+ * API endpoint for checking if a user is logged in.
+ * @route {GET} /api/isLoggedIn
+ */app.get('/api/isLoggedIn', (req, res) => {
   if (req.session.user) {
     res.json({ isLoggedIn: true, user: req.session.user });
   } else {
@@ -188,7 +232,11 @@ app.get('/api/isLoggedIn', (req, res) => {
   }
 });
 
-// Route pour la déconnexion
+
+/**
+ * API endpoint for logging out.
+ * @route {GET} /api/logout
+ */
 app.get('/api/logout', (req, res) => {
   req.session.destroy();
   res.status(200).send('Déconnexion réussie');
@@ -199,6 +247,11 @@ app.post('/api/checkout', async (req, res) => {
   
 });
 
+
+/**
+ * API endpoint for creating a checkout session.
+ * @route {POST} /api/create-checkout-session
+ */
 app.post('/api/create-checkout-session', async (req, res) => {
   const { lineItems } = req.body;
 
@@ -217,6 +270,11 @@ app.post('/api/create-checkout-session', async (req, res) => {
   }
 });
 
+
+/**
+ * API endpoint for recording a click.
+ * @route {POST} /api/clicks
+ */
 app.post('/api/clicks', async (req, res) => {
   try {
     const { productId } = req.body;
@@ -232,6 +290,11 @@ app.post('/api/clicks', async (req, res) => {
   }
 });
 
+
+/**
+ * API endpoint for fetching click data for a specific product.
+ * @route {GET} /api/clicks/:productId
+ */
 app.get('/api/clicks/:productId', async (req, res) => {
   try {
     const { productId } = req.params;
@@ -253,6 +316,10 @@ app.get('/api/clicks/:productId', async (req, res) => {
 });
 
 
+/**
+ * API endpoint for saving user data.
+ * @route {POST} /api/save-user-data
+ */
 app.post('/api/save-user-data', async (req, res) => {
   try {
     const { nom, prenom, email } = req.body;

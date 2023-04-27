@@ -1,18 +1,39 @@
+/**
+ * Element representing the "Pay with card" button.
+ */
 const payCardButton = document.getElementById('payCard');
 
+
+/**
+ * Event listener for the "Pay with card" button click event.
+ * Initiates the Stripe payment process.
+ */
 payCardButton.addEventListener('click', async () => {
     await handlePaymentStripe();
 });
 
 
+/**
+ * Elements representing the input fields for user information.
+ */
 const nomInput = document.getElementById('nom');
 const prenomInput = document.getElementById('prenom');
 const emailInput = document.getElementById('email');
 
+
+/**
+ * Event listeners for changes to the user information input fields.
+ */
 nomInput.addEventListener('change', handleInputChange);
 prenomInput.addEventListener('change', handleInputChange);
 emailInput.addEventListener('change', handleInputChange);
 
+
+/**
+ * Asynchronously handles input change events, saving user data to the server.
+ * @async
+ * @param {Event} event - The input change event.
+ */
 async function handleInputChange(event) {
   const nom = nomInput.value;
   const prenom = prenomInput.value;

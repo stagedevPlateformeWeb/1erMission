@@ -1,7 +1,7 @@
 /**
- * Listener d'événement pour le formulaire d'ajout de produit.
- * Envoie une requête POST pour ajouter un nouveau produit avec les valeurs saisies dans le formulaire.
- * Gère les succès et les erreurs de la requête.
+ * Adds an event listener to the add-product-form to handle form submissions
+ * and add a new product.
+ * @listens submit
  */
 document.getElementById('add-product-form').addEventListener('submit', async (event) => {
   // Empêche le comportement de soumission par défaut du formulaire
