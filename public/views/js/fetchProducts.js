@@ -1,6 +1,12 @@
+/**
+ * Fetches products from the API and displays them in the product list.
+ * If a search query is provided, it will filter the results accordingly.
+ * Also updates the cart count.
+ * @async
+ * @param {string} [searchQuery=''] - The search query to filter products.
+ */
 async function fetchProducts(searchQuery = '') {
   try {
-    // Si searchQuery n'est pas fourni, on le récupère depuis l'URL
     if (!searchQuery) {
       const urlParams = new URLSearchParams(window.location.search);
       searchQuery = urlParams.get('search') || '';
@@ -8,7 +14,6 @@ async function fetchProducts(searchQuery = '') {
       valeurMax = urlParams.get('max') || '';
     }
 
-    // Si searchQuery est fourni, on l'ajoute à l'URL
     const url = searchQuery
       ? `http://localhost:4000/api/products?search=${encodeURIComponent(searchQuery)}&min=${encodeURIComponent(valeurMin)}&max=${encodeURIComponent(valeurMax)}`
       : 'http://localhost:4000/api/products';
@@ -20,10 +25,8 @@ async function fetchProducts(searchQuery = '') {
     if (!productList) {
       return;
     }
-
-
+    
     productList.innerHTML = '';
-
     products.forEach((product) => {
       if (product.name === null) {
         product.name = 'Sans nom';
@@ -38,8 +41,22 @@ async function fetchProducts(searchQuery = '') {
         <h1>Prix: ${product.price}€</h1>
       `;
       productList.appendChild(productDiv);
-      productDiv.addEventListener('click', () => {
-        window.location.href = `/productDetails?productId=${product.id}`;
+
+      // Remplacez l'ancien code d'événement 'click' par le nouveau code
+      productDiv.addEventListener('click', async () => {
+        try {
+          await fetch('/api/clicks', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ productId: product.id }),
+          });
+
+          window.location.href = `/productDetails?productId=${product.id}`;
+        } catch (error) {
+          console.error('Error registering click:', error);
+        }
       });
     });
   } catch (error) {
@@ -47,12 +64,17 @@ async function fetchProducts(searchQuery = '') {
   }
 }
 
+
+/**
+ * Updates the cart count displayed in the user interface.
+ */
 function updateCartCount() {
   const cartCount = document.getElementById('cart-count');
   const totalCount = cart.getItems().reduce((count, item) => count + item.quantity, 0);
   cartCount.textContent = totalCount;
 }
 
-// fetchProducts sans paramètre pour charger tous les produits au début
+
+// Fetch the products and update the cart count
 fetchProducts();
 updateCartCount();

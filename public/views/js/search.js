@@ -1,11 +1,20 @@
+/**
+ * Redirects the user to the main index page with search query and price range parameters.
+ * @param {string} searchQuery - The search query.
+ */
 function RedirectionVersIndex(searchQuery) {
   window.location.href = `/?search=${encodeURIComponent(searchQuery)}&min=${rechercheAvecPrix()[0]}&max=${rechercheAvecPrix()[1]}`;
 }
 
+
 const inputMinimum = document.getElementById('inputMinimum');
 const inputMaximum = document.getElementById('inputMaximum');
 
-// Fonction qui permet de voir les valeurs saisies dans les inputs
+
+/**
+ * Handles price input values and returns an array with the minimum and maximum price values.
+ * @returns {number[]} An array containing the minimum and maximum price values.
+ */
 function rechercheAvecPrix() {
   // Si la valeur minimale est supérieure à la valeur maximale, on inverse les valeurs
   if (parseInt(inputMinimum.value) > parseInt(inputMaximum.value)) {
@@ -37,6 +46,9 @@ function rechercheAvecPrix() {
 
 const searchInput = document.getElementById('search');
 const searchButton = document.getElementById('search-button');
+
+
+// Add event listeners for click and keypress events
 
 searchButton.addEventListener('click', () => {
   const searchQuery = searchInput.value.trim();

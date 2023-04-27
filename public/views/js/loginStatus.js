@@ -1,3 +1,9 @@
+/**
+ * Asynchronously updates the login status on the page.
+ * Displays the user email and a logout button if the user is logged in,
+ * otherwise displays a login button.
+ * @async
+ */
 async function updateLoginStatus() {
     const response = await fetch('/api/isLoggedIn');
     const { isLoggedIn, user } = await response.json();
@@ -27,4 +33,6 @@ async function updateLoginStatus() {
     }
   }
 
-  updateLoginStatus();
+
+// Call the function to update the login status on page load.
+updateLoginStatus();
