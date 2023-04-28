@@ -12,11 +12,16 @@ const saltRounds = 10;
 const path = require('path');
 const nunjucks = require('nunjucks');
 const requestIp = require('request-ip');
+const http = require("http");
+const dotenv = require('dotenv').config()
 
 
 /**
  * Database configuration for user information.
- * @type {Object}
+ * @type {Object}host: process.env.POSTGRES_INFOUTILISATEUR_HOST,
+ *   user: process.env.POSTGRES_INFOUTILISATEUR_USER,
+ *   password: process.env.POSTGRES_INFOUTILISATEUR_PASSWORD,
+ *   database: process.env.POSTGRES_INFOUTILISATEUR_DATABASE,
  */
 const infosUtilisateurs = {
   host: 'postgresql-ismail.alwaysdata.net',
@@ -32,10 +37,10 @@ const infosUtilisateursPool = new Pool(infosUtilisateurs);
  * @type {Object}
  */
 const clickDbConfig = {
-  host: 'postgresql-ismail.alwaysdata.net',
-  user: 'ismail',
-  password: 'Prototype13!',
-  database: 'ismail_clicks',
+  host: process.env.POSTGRES_DBCLICK_HOST ,
+  user: process.env.POSTGRES_DBCLICK_USER,
+  password: process.env.POSTGRES_DBCLICK_PASSWORD ,
+  database: process.env.POSTGRES_DBCLICK_DATABASE,
 };
 
 const clickPgPool = new Pool(clickDbConfig);
@@ -52,13 +57,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const port = 4000;
+const port = process.env.ALWAYSDATA_HTTPD_PORT || 4000
+const host = process.env.ALWAYSDATA_HTTPD_IP || 'localhost'
 
 
 /**
  * Database configuration for products and users.
  * @type {Object}
  */
+const dbConfig = {
+  host: process.env.POSTGRES_HOST,
+  user: process.env.POSTGRES_USER,
+  password:  process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DATABASE,
+};
+
 const dbConfigPostgres = {
   host: 'postgresql-ismail.alwaysdata.net',
   user: 'ismail',
@@ -274,8 +287,8 @@ app.post('/api/create-checkout-session', async (req, res) => {
         allowed_countries: ['FR', 'US', 'CA']
       },
       mode: 'payment',
-      success_url: 'http://localhost:4000/success',
-      cancel_url: 'http://localhost:4000/cancel'
+      success_url: `http://${host}:${port}/success`,
+      cancel_url: `http://${host}:${port}/cancel`
     });
 
     res.json(session);
@@ -398,6 +411,6 @@ app.post('/api/save-user-data', async (req, res) => {
 });
 
 
-app.listen(port, () => {
-  console.log(`API en écoute sur http://localhost:${port}`);
+app.listen(port,host,() => {
+  console.log(`API en écoute sur ${host} ${port}`);
 });
