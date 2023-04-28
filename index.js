@@ -262,12 +262,17 @@ app.post('/api/checkout', async (req, res) => {
  * @route {POST} /api/create-checkout-session
  */
 app.post('/api/create-checkout-session', async (req, res) => {
-  const { lineItems } = req.body;
+  const { lineItems, customerEmail, customerName } = req.body;
 
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
+      customer_email: customerEmail, 
+      billing_address_collection: 'auto',
+      shipping_address_collection: {
+        allowed_countries: ['FR', 'US', 'CA']
+      },
       mode: 'payment',
       success_url: 'http://localhost:4000/success',
       cancel_url: 'http://localhost:4000/cancel'
