@@ -3,15 +3,13 @@
  */
 const payCardButton = document.getElementById('payCard');
 
-
 /**
  * Event listener for the "Pay with card" button click event.
  * Initiates the Stripe payment process.
  */
 payCardButton.addEventListener('click', async () => {
-    await handlePaymentStripe();
+  await handlePaymentStripe();
 });
-
 
 /**
  * Elements representing the input fields for user information.
@@ -20,14 +18,12 @@ const nomInput = document.getElementById('nom');
 const prenomInput = document.getElementById('prenom');
 const emailInput = document.getElementById('email');
 
-
 /**
  * Event listeners for changes to the user information input fields.
  */
 nomInput.addEventListener('change', handleInputChange);
 prenomInput.addEventListener('change', handleInputChange);
 emailInput.addEventListener('change', handleInputChange);
-
 
 /**
  * Asynchronously handles input change events, saving user data to the server.
@@ -60,3 +56,29 @@ async function handleInputChange(event) {
   }
 }
 
+// Appeler la fonction renderPayPalButton directement pour afficher les boutons PayPal dès le chargement de la page
+renderPayPalButton();
+
+function renderPayPalButton() {
+  const cartTotal = cart.getTotal().toFixed(2);
+
+  paypal.Buttons({
+    fundingSource: paypal.FUNDING.PAYPAL, // Ajoutez cette ligne
+    createOrder: function (data, actions) {
+      return actions.order.create({
+        purchase_units: [
+          {
+            amount: {
+              value: cartTotal,
+            },
+          },
+        ],
+      });
+    },
+    onApprove: function (data, actions) {
+      return actions.order.capture().then(function (details) {
+        alert('Transaction effectuée par ' + details.payer.name.given_name);
+      });
+    },
+  }).render('#paypal-button-container');
+}

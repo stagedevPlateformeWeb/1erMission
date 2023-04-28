@@ -1,17 +1,24 @@
 {% extends "views/layout.html" %}
 
-{% block title %} 
+{% block title %}
 Paiements
 {% endblock %}
 {% block content %}
-    <section id="paiements">
-        <h2>Paiements</h2>
-        <button id="payCard">Payer par carte bancaire</button>
-        <button id="payPaypal">Payer par Paypal</button>
-    </section>
-    <section id="user-data-form">
-        <input type="text" id="nom" placeholder="Nom">
-        <input type="text" id="prenom" placeholder="Prénom">
-        <input type="email" id="email" placeholder="Email">
-    </section>
+<div id="payment-page">
+  <section id="paiements">
+    <h2>Paiements</h2>
+    <div class="payment-options">
+      <button id="payCard" class="payment-option">Payer par carte bancaire</button>
+      <div id="paypal-button-container"></div>
+    </div>
+  </section>
+  <section id="user-data-form">
+    <h3>Informations personnelles</h3>
+    <input type="text" id="nom" placeholder="Nom">
+    <input type="text" id="prenom" placeholder="Prénom">
+    <input type="email" id="email" placeholder="Email">
+    <input type="adresse" id="adresse" placeholder="Adresse">
+  </section>
+</div>
+<script src="https://www.paypal.com/sdk/js?client-id=ATa0yClkJVB64ILAhkKoMx52BLXIlQymG0DBeuw28mLReBeJXo9lAGlBc47ev-FtsAVIwXrVqiaJQk4M"></script>
 {% endblock %}
