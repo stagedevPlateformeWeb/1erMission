@@ -4,14 +4,14 @@
 Paiements
 {% endblock %}
 {% block content %}
+<main>
     <section id="paiements">
         <h2>Paiements</h2>
         <button id="payCard">Payer par carte bancaire</button>
-        <button id="payPaypal">Payer par Paypal</button>
+        <button id="pay-via-paypal">Payer via PayPal</button>
+        <div id="paypal-button-container" style="display: none;"></div>
     </section>
-    <section id="user-data-form">
-        <input type="text" id="nom" placeholder="Nom">
-        <input type="text" id="prenom" placeholder="Prénom">
-        <input type="email" id="email" placeholder="Email">
-    </section>
+</main>
+<script src="https://www.paypal.com/sdk/js?client-id=ATa0yClkJVB64ILAhkKoMx52BLXIlQymG0DBeuw28mLReBeJXo9lAGlBc47ev-FtsAVIwXrVqiaJQk4M"></script>
+<script src="./views/js/paymentPaypal.js"></script>
 {% endblock %}

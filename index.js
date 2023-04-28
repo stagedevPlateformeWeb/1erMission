@@ -3,7 +3,7 @@
  * @module app
  */
 const express = require('express');
-const { Pool } = require('pg');
+const { Client, Pool } = require('pg');
 const cors = require('cors');
 const mime = require('mime');
 const session = require('express-session');
@@ -24,7 +24,10 @@ const dotenv = require('dotenv').config()
  *   database: process.env.POSTGRES_INFOUTILISATEUR_DATABASE,
  */
 const infosUtilisateurs = {
-
+  host: 'postgresql-ismail.alwaysdata.net',
+  user: 'ismail',
+  password: 'Prototype13!',
+  database: 'ismail_panier_abandonne',
 };
 
 const infosUtilisateursPool = new Pool(infosUtilisateurs);
@@ -69,7 +72,13 @@ const dbConfig = {
   database: process.env.POSTGRES_DATABASE,
 };
 
-const pgPool = new Pool(dbConfig);
+const dbConfigPostgres = {
+  host: 'postgresql-ismail.alwaysdata.net',
+  user: 'ismail',
+  password: 'Prototype13!',
+  database: 'ismail_prototype'
+};
+const pgPool = new Pool(dbConfigPostgres);
 
 app.use(session({
   secret: 'MDP',
@@ -122,6 +131,14 @@ app.get('/cancel', (req, res) => {
 
 app.get('/payment', (req, res) => {
   res.render('payment.html');
+});
+
+app.get('/paymentInterface', (req, res) => {
+  res.render('interfacePaiements.html');
+});
+
+app.get('/informations', (req, res) => {
+  res.render('infosClients.html');
 });
 
 
@@ -190,6 +207,8 @@ app.post('/api/login', async (req, res) => {
   req.session.user = {
   id: rows[0].id,
   email: rows[0].email,
+  name: rows[0].name,
+  first_name: rows[0].first_name,
   ip_address: userIpAddress // Ajoutez cette ligne
   };
   res.status(200).send('Connexion réussie');
@@ -214,7 +233,7 @@ app.post('/api/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     const userIpAddress = requestIp.getClientIp(req);
     const client = await pgPool.connect();
-    await client.query('INSERT INTO users (email, password, ip_address) VALUES ($1, $2, $3)', [req.body.email, hashedPassword, userIpAddress]);
+    await client.query('INSERT INTO users (email, name, first_name, password, ip_address) VALUES ($1, $2, $3, $4, $5)', [req.body.email, req.body.name, req.body.first_name, hashedPassword, userIpAddress]);
     client.release();
     res.status(201).send('Inscription réussie');
   } catch (error) {
@@ -256,12 +275,17 @@ app.post('/api/checkout', async (req, res) => {
  * @route {POST} /api/create-checkout-session
  */
 app.post('/api/create-checkout-session', async (req, res) => {
-  const { lineItems } = req.body;
+  const { lineItems, customerEmail, customerName } = req.body;
 
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
+      customer_email: customerEmail, 
+      billing_address_collection: 'auto',
+      shipping_address_collection: {
+        allowed_countries: ['FR', 'US', 'CA']
+      },
       mode: 'payment',
       success_url: `http://${host}:${port}/success`,
       cancel_url: `http://${host}:${port}/cancel`
@@ -272,6 +296,50 @@ app.post('/api/create-checkout-session', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// Route pour récupérer l'email de l'utilisateur
+app.get('/api/getUserInfo', async (req, res) => {
+  // Vérifiez si un utilisateur est connecté
+  if (req.session && req.session.user) {
+    res.json({ userEmail: req.session.user.email,
+               userName: req.session.user.name,
+               userFirstName: req.session.user.first_name,
+             });
+  } else {
+    res.json({ userEmail: null,
+                userName: null,
+                userFirstName: null
+             });
+  }
+});
+
+
+// Route pour récupérer panier abandonné
+app.post('/api/save-abandoned-cart', async (req, res) => {
+  const { userEmail, cartItems } = req.body;
+
+  try {
+    const client = await pgPool.connect();
+
+    // requete pour inserer email et produits du panier abandonné sous format json
+    // si l'email existe deja dans la bd, on met à jour le panier abandonné
+    const query = `
+    INSERT INTO abandoned_cart (user_email, cart_products)
+    VALUES ($1, $2::json)
+    ON CONFLICT (user_email)
+    DO UPDATE SET cart_products = EXCLUDED.cart_products, created_at = NOW();
+  `;  
+
+    await client.query(query, [userEmail, JSON.stringify(cartItems)]);
+    client.release();
+
+    res.status(200).send('Panier abandonné sauvegardé');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Erreur lors de la sauvegarde du panier abandonné');
+  }
+});
+
 
 
 /**
