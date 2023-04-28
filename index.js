@@ -3,7 +3,7 @@
  * @module app
  */
 const express = require('express');
-const { Client, Pool } = require('pg');
+const { Pool } = require('pg');
 const cors = require('cors');
 const mime = require('mime');
 const session = require('express-session');
@@ -24,10 +24,10 @@ const dotenv = require('dotenv').config()
  *   database: process.env.POSTGRES_INFOUTILISATEUR_DATABASE,
  */
 const infosUtilisateurs = {
-  host: 'postgresql-ismail.alwaysdata.net',
-  user: 'ismail',
-  password: 'Prototype13!',
-  database: 'ismail_panier_abandonne',
+  host: process.env.POSTGRES_INFOUTILISATEUR_HOST ,
+  user: process.env.POSTGRES_INFOUTILISATEUR_USER,
+  password: process.env.POSTGRES_INFOUTILISATEUR_PASSWORD ,
+  database: process.env.POSTGRES_INFOUTILISATEUR_DATABASE,
 };
 
 const infosUtilisateursPool = new Pool(infosUtilisateurs);
@@ -72,13 +72,7 @@ const dbConfig = {
   database: process.env.POSTGRES_DATABASE,
 };
 
-const dbConfigPostgres = {
-  host: 'postgresql-ismail.alwaysdata.net',
-  user: 'ismail',
-  password: 'Prototype13!',
-  database: 'ismail_prototype'
-};
-const pgPool = new Pool(dbConfigPostgres);
+const pgPool = new Pool(dbConfig);
 
 app.use(session({
   secret: 'MDP',
