@@ -240,9 +240,9 @@ label{
   border-style: 1px;
   font-size: large;
   padding: 10px 20px;
-	border-radius: 6px;
-	border-width: 2px;
-	border-style: solid;
+  border-radius: 6px;
+  border-width: 2px;
+  border-style: solid;
 }
 
 .product-details button:hover{
@@ -338,3 +338,83 @@ input[type="number"] {
   margin-bottom: 20px;
 }
 
+
+/*Style du panel administrateur */
+
+
+.menu{
+
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-template-rows: repeat(3,1fr);
+  height: 80vh;
+  width: 100vw;
+
+}
+
+.panel button{
+  width: 100%;
+  height: 100%;
+  border: none;
+
+}
+
+/* admin add product */
+
+
+h1 {
+  text-align: center;
+}
+
+form {
+  column-gap: 2px;
+  margin: 10%;
+  height: 50%;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+form label {
+  margin: 10px;
+  font-size: medium;
+}
+
+form input {
+  width: 50%;
+  height: 40%;
+  padding: 5px 1px 5px 1px;
+}
+
+label#largeFile {
+  margin: 10px;
+  top: 0;
+}
+
+label#largeFile:after {
+  content: "Upload your file";
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px 100px 40px 100px;
+  width: 100vw;
+  height: 100%;
+  border: 2px dashed black;
+}
+
+label#largeFile input#file {
+  width: 0px;
+  height: 0px;
+}
+
+
+/*
+button {
+  border: none;
+  text-align: center;
+  border-style: 2px;
+  margin: 50px;
+  padding: 2% 15% 2% 15%;
+}
+*/
