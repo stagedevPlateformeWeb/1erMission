@@ -14,7 +14,7 @@ const nunjucks = require('nunjucks');
 const requestIp = require('request-ip');
 const http = require("http");
 const dotenv = require('dotenv').config()
-
+const bodyParser = require('body-parser');
 
 /**
  * Database configuration for user information.
@@ -53,6 +53,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
 const port = process.env.ALWAYSDATA_HTTPD_PORT || 4000
 const host = process.env.ALWAYSDATA_HTTPD_IP || 'localhost'
@@ -341,6 +342,32 @@ app.post('/api/save-user-data', async (req, res) => {
     res.status(500).send('Erreur lors de l\'enregistrement des données');
   }
 });
+
+
+app.get('/adminPanel',async(req,res)=>{
+  res.render('adminPanel.html');
+})
+
+app.get('/admin/ajouterProduit',async (req,res)=>{
+  res.render('adminAjouterProduit.html');
+})
+
+app.post('/admin/form', async (req,res) =>{
+  const nom = req.body.name;
+  const prix = req.body.prix;
+  const description = req.body.description;
+  const source = req.body.source;
+
+  try {
+    const client = await pgPool.connect();
+    await client.query('INSERT INTO products (name, price, description, image_url) VALUES ($1, $2, $3, $4)', [nom,prix,description,source]);
+    client.release();
+    res.status(201).send('Produit ajouté');
+  } catch (error) {
+    console.error('Erreur ajout produit', error);
+    res.status(500).send('Erreur ajout produit');
+  }
+})
 
 
 app.listen(port,host,() => {
