@@ -1,14 +1,3 @@
-let orderBool = false;
-
-function getOrderBool() {
-  return localStorage.getItem('orderBool');
-}
-function setOrderBoolTrue() {
-  localStorage.setItem('orderBool', true);
-}
-function setOrderBoolFalse() {
-  localStorage.setItem('orderBool', false);
-}
 function getNom() {
   return localStorage.getItem('nom');
 }
@@ -36,12 +25,13 @@ async function saveCartUnload() {
   // récupérer l'email de l'utilisateur
 
   const userEmail = getEmail();
+  console.log("userEmail : " + userEmail);
   
   //si userEmail est null, on ne fait rien
  if(!userEmail){
     console.error('Erreur lors de la récupération de l\'email de l\'utilisateur');
     return;
-  }else if (userEmail && cart.getItems().length > 0 && getOrderBool() === true) {
+  }else if (userEmail && cart.getItems().length > 0) {
       saveAbandonedCart(userEmail, cart.getItems());
     }
 }

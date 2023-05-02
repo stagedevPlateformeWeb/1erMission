@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
 if(document.getElementById('paymentCanceled')) { 
-    setOrderBoolTrue();
+    console.log("l'email est :"+ getEmail());
     saveCartUnload();
-    setOrderBoolFalse();
 }
 
 });
