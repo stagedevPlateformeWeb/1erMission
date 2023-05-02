@@ -22,40 +22,48 @@ Prototype e-commerce
 
     <section id="carousel">
         <div class="carousel-images-container">
-            <!--
-            <input type="radio" name="carousel-image-slider" id="slider-1">
-            <input type="radio" name="carousel-image-slider" id="slider-2">
-            <input type="radio" name="carousel-image-slider" id="slider-3">
-            -->
-        </div>
 
-        <div class="carousel-images">
-            <!--
-            <label for="slider-1" id="publication-1">
-                <div class="carousel-image">
-                    <img src="" alt="">
-                    <div class="points">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
+
+            <input type="radio" name="slider" class="d-none" id="slider-1">
+            <input type="radio" name="slider" class="d-none" id="slider-2" checked>
+            <input type="radio" name="slider" class="d-none" id="slider-3">
+
+            <div class="carousel-images">
+                <label for="slider-1" id="publication-1">
+                    <div class="card">
+                        <div class="image">
+                            <img src="https://www.bonschocolatiers.com/_Images/Products/palomas/1280/0111000802-1-Tablette-Chocolat-Lait-45-90g-180515.jpg" alt="">
+                        </div>
+                        <div class="infos-publication">
+                            <span class="name">Publication</span></span>
+                        </div>
+                        <a href="" class="btn-contact">Accéder</a>
                     </div>
-                </div>
-                <div class="info-publication">
-                    <span class="titre-publication"></span>
-                    <span class="lorem"> Lorem </span>
+                </label>
 
-                    <a href="" class="detail-publication">Détails</a>
-
-                    <div class="actions">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <i class="fa-solid fa-heart"></i>
-                        <i class="fa-regular fa-bookmark"></i>
-                        <i class="fa-solid fa-share-nodes"></i>
+                <label for="slider-2" id="publication-2">
+                    <div class="card">
+                        <div class="image">
+                            <img src="https://joel-vilcoq-chocolatier.fr/152-large_default/chocolats.jpg" alt="">
+                        </div>
+                        <div class="infos-publication">
+                            <span class="name">Publication</span>
+                        </div>
+                        <a href="" class="btn-contact">Accéder</a>
                     </div>
-                </div>
-                -->
-            </label>
+                </label>
+
+                <label for="slider-3" id="publication-3">
+                    <div class="card">
+                        <div class="image">
+                            <img src="https://chaudun.com/wp-content/uploads/2017/11/tablette-chocolat-blanc.png" alt="">
+                        </div>
+                        <div class="infos-publication">
+                            <span class="name">Publication</span>
+                        </div>
+                        <a href="" class="btn-contact">Accéder</a>
+                </label>
+            </div>
         </div>
     </section>
 {% endblock %}

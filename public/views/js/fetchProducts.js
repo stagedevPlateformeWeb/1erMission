@@ -69,21 +69,7 @@ function shuffle(array) {
 
 function carouselManager(apiInsta) {
     const carousel = document.querySelector(".carousel-images-container");
-    for (let i = 0; i < 3; i += 1) {
-        let input = document.createElement("input");
-        input.type = "radio";
-        input.name = "carousel-image-slider";
-        input.id = "slider-" + (i + 1);
-        input.classList.add("carousel-image-slider");
-        if (i === 0) {
-            input.checked = true;
-        } else {
-            input.checked = false;
-        }
-        console.log(carousel);
-        console.log(input);
-        carousel.appendChild(input);
-    }
+
     const carouselImages = document.querySelector(".carousel-images");
 
     let jsonCarousel = shuffle(apiInsta.publications);
@@ -115,7 +101,11 @@ function carouselManager(apiInsta) {
         titrePublication.textContent = jsonCarousel[i].titre;
         informationPublication.appendChild(titrePublication);
 
-        labelPublication.appendChild(cartePublication);
+        let divTest = document.createElement("div");
+        divTest.classList.add("card");
+        divTest.appendChild(cartePublication);
+
+        labelPublication.appendChild(divTest);
         labelPublication.appendChild(informationPublication);
 
         carouselImages.appendChild(labelPublication);
@@ -134,5 +124,5 @@ var jsonString = '{"publications": ' +
     '{"titre": "Chocolat noir", "image_url": "https://joel-vilcoq-chocolatier.fr/152-large_default/chocolats.jpg", "likes": 299}, ' +
     '{"titre": "Chocolat blanc", "image_url": "https://chaudun.com/wp-content/uploads/2017/11/tablette-chocolat-blanc.png", "likes": 0}' +
     ']}';
-carouselManager(JSON.parse(jsonString));
+///carouselManager(JSON.parse(jsonString));
 
