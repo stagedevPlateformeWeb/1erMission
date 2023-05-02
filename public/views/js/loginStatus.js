@@ -32,7 +32,7 @@ async function updateLoginStatus() {
         const panelAdmin = document.createElement('button');
         panelAdmin.textContent = "Aller au panel administrateur";
         panelAdmin.onclick = () => {
-            window.location.href = '/adminPanel';
+            window.location.href = '/admin';
         }
         loginContainer.appendChild(panelAdmin);
     }

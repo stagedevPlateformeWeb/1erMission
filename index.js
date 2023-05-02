@@ -344,7 +344,7 @@ app.post('/api/save-user-data', async (req, res) => {
 });
 
 
-app.get('/adminPanel',async(req,res)=>{
+app.get('/admin',async(req,res)=>{
   res.render('adminPanel.html');
 })
 
