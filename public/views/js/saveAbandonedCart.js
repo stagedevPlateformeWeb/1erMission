@@ -1,4 +1,14 @@
 let orderBool = false;
+
+function getOrderBool() {
+  return localStorage.getItem('orderBool');
+}
+function setOrderBoolTrue() {
+  localStorage.setItem('orderBool', true);
+}
+function setOrderBoolFalse() {
+  localStorage.setItem('orderBool', false);
+}
 function getNom() {
   return localStorage.getItem('nom');
 }
@@ -22,14 +32,7 @@ async function saveAbandonedCart(userEmail, cartItems) {
   }
 }
 
-async function getUserInfo() {
-  const response = await fetch('/api/getUserInfo');
-  const { userEmail, userName, userFirstName } = await response.json();
-  return { userEmail, userName, userFirstName };
-}
-
-
-async function beforeUnload() {
+async function saveCartUnload() {
   // récupérer l'email de l'utilisateur
 
   const userEmail = getEmail();
@@ -38,15 +41,11 @@ async function beforeUnload() {
  if(!userEmail){
     console.error('Erreur lors de la récupération de l\'email de l\'utilisateur');
     return;
-  }
-
-
-  // récupérer le panier si abandonné
-  window.addEventListener('beforeunload', async (event) => {
-    
-    if (userEmail!=null && cart.getItems().length > 0 && orderBool === true) {
+  }else if (userEmail && cart.getItems().length > 0 && getOrderBool() === true) {
       saveAbandonedCart(userEmail, cart.getItems());
     }
-  });
 }
+
+
+
 
