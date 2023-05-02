@@ -18,7 +18,8 @@ const bodyParser = require('body-parser');
 
 /**
  * Database configuration for user information.
- * @type {Object}host: process.env.POSTGRES_INFOUTILISATEUR_HOST,
+ * @type {Object}
+ *   host: process.env.POSTGRES_INFOUTILISATEUR_HOST,
  *   user: process.env.POSTGRES_INFOUTILISATEUR_USER,
  *   password: process.env.POSTGRES_INFOUTILISATEUR_PASSWORD,
  *   database: process.env.POSTGRES_INFOUTILISATEUR_DATABASE,

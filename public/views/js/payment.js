@@ -7,9 +7,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   /**
    * Éléments représentant les champs de saisie pour les informations de l'utilisateur.
    */
-  const nomInput = document.getElementById('nom');
-  const prenomInput = document.getElementById('prenom');
-  const emailInput = document.getElementById('email');
+   const nomInput = document.getElementById('nom');
+   const prenomInput = document.getElementById('prenom');
+   const emailInput = document.getElementById('email');
 
   if (payCardButton) {
     /**
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   beforeUnload();
 
-  const userIsLoggedIn = await isLoggedIn();
+ /* const userIsLoggedIn = await isLoggedIn();
   if (userIsLoggedIn) {
     const userInfo = await getUserInfo();
     nomInput.value = userInfo.userName || '';
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     submitForm(nomInput.value, prenomInput.value, emailInput.value);
   }
-
+*/
   nomInput.addEventListener('change', handleInputChange);
   prenomInput.addEventListener('change', handleInputChange);
   emailInput.addEventListener('change', handleInputChange);
@@ -76,6 +76,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       } catch (error) {
         console.error(error);
       }
+
+      localStorage.setItem('nom', nom);
+      localStorage.setItem('prenom', prenom);
+      localStorage.setItem('email', email);
     }
   }
 });
+
