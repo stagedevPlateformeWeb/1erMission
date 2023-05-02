@@ -93,18 +93,6 @@ function displayCartItems() {
   cartSummary.appendChild(totalCostElement);
 
 }
-
-  
-/**
- * Checks if the user is logged in.
- * @async
- * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if the user is logged in.
- */
-async function isLoggedIn() {
-  const response = await fetch('/api/isLoggedIn');
-  const { isLoggedIn } = await response.json();
-  return isLoggedIn;
-}
   
 /**
  * Sets up the functionality for placing an order.
@@ -122,17 +110,12 @@ async function isLoggedIn() {
         return;
       }
     
-      // passer a true 
-      orderBool = true;
       // redirige vers la page de paiement
       window.location.href = '/paymentInterface';
     
       
     });
   }
-    
-  //recuperer panier si abandonné
-    beforeUnload();
 
   
   if (document.querySelector('.cart-summary')) {
