@@ -4,6 +4,10 @@
  * otherwise displays a login button.
  * @async
  */
+
+
+
+
 async function updateLoginStatus() {
     const response = await fetch('/api/isLoggedIn');
     const { isLoggedIn, user } = await response.json();
@@ -12,18 +16,27 @@ async function updateLoginStatus() {
     loginContainer.innerHTML = '';
 
     if (isLoggedIn) {
-      const logoutButton = document.createElement('button');
-      logoutButton.textContent = 'Déconnexion';
-      logoutButton.onclick = async () => {
-        await fetch('/api/logout');
-        updateLoginStatus();
-      };
-      loginContainer.appendChild(logoutButton);
+        const logoutButton = document.createElement('button');
+        logoutButton.textContent = 'Déconnexion';
+        logoutButton.onclick = async () => {
+            await fetch('/api/logout');
+            updateLoginStatus();
+        };
 
-      const userInfo = document.createElement('span');
-      userInfo.textContent = `Connecté en tant que : ${user.email}`;
-      loginContainer.appendChild(userInfo);
-    } else {
+        loginContainer.appendChild(logoutButton);
+
+        const userInfo = document.createElement('span');
+        userInfo.textContent = `Connecté en tant que : ${user.email}`;
+        loginContainer.appendChild(userInfo);
+
+        const panelAdmin = document.createElement('button');
+        panelAdmin.textContent = "Aller au panel administrateur";
+        panelAdmin.onclick = () => {
+            window.location.href = '/admin';
+        }
+        loginContainer.appendChild(panelAdmin);
+    }
+    else {
       const loginButton = document.createElement('button');
       loginButton.innerHTML = '<img src="assets/bx-user.svg" alt="Login">';
       loginButton.onclick = () => {
@@ -32,6 +45,21 @@ async function updateLoginStatus() {
       loginContainer.appendChild(loginButton);
     }
   }
+
+
+  /* administrateur page ajouter produit */
+
+  const adminAddProduct = document.getElementById("ajouterProduit");
+    adminAddProduct.addEventListener( () => {
+        window.location.href("/admin/ajouterProduit");
+    });
+
+
+
+
+
+
+
 
 
 // Call the function to update the login status on page load.
