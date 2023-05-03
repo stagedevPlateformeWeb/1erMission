@@ -4,13 +4,6 @@ let paypalButtonsRendered = false;
 const paypalButton = document.getElementById('pay-via-paypal');
 
 paypalButton.addEventListener('click', async () => {
-  // Vérifier si l'utilisateur est connecté
-  const loggedIn = await isLoggedIn();
-  if (!loggedIn) {
-    alert('Veuillez vous connecter pour passer une commande.');
-    window.location.href = '/login';
-    return;
-  }
 
   // Si le panier est vide, afficher un message d'alerte et ne rien faire
   if (cart.getItems().length === 0) {

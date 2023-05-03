@@ -18,7 +18,8 @@ const bodyParser = require('body-parser');
 
 /**
  * Database configuration for user information.
- * @type {Object}host: process.env.POSTGRES_INFOUTILISATEUR_HOST,
+ * @type {Object}
+ *   host: process.env.POSTGRES_INFOUTILISATEUR_HOST,
  *   user: process.env.POSTGRES_INFOUTILISATEUR_USER,
  *   password: process.env.POSTGRES_INFOUTILISATEUR_PASSWORD,
  *   database: process.env.POSTGRES_INFOUTILISATEUR_DATABASE,
@@ -270,7 +271,7 @@ app.post('/api/checkout', async (req, res) => {
  * @route {POST} /api/create-checkout-session
  */
 app.post('/api/create-checkout-session', async (req, res) => {
-  const { lineItems, customerEmail, customerName } = req.body;
+  const { lineItems, customerEmail } = req.body;
 
   try {
     const session = await stripe.checkout.sessions.create({

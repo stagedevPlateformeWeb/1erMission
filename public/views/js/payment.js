@@ -1,15 +1,9 @@
+let paymentClicked = false;
 document.addEventListener('DOMContentLoaded', async () => {
   /**
    * Élément représentant le bouton "Payer avec carte".
    */
   const payCardButton = document.getElementById('payCard');
-
-  /**
-   * Éléments représentant les champs de saisie pour les informations de l'utilisateur.
-   */
-  const nomInput = document.getElementById('nom');
-  const prenomInput = document.getElementById('prenom');
-  const emailInput = document.getElementById('email');
 
   if (payCardButton) {
     /**
@@ -17,65 +11,25 @@ document.addEventListener('DOMContentLoaded', async () => {
      * Initialise le processus de paiement Stripe.
      */
     payCardButton.addEventListener('click', async () => {
-      orderBool = true;
+      paymentClicked = true;
       await handlePaymentStripe();
     });
   }
 
-  beforeUnload();
-
-  const userIsLoggedIn = await isLoggedIn();
-  if (userIsLoggedIn) {
-    const userInfo = await getUserInfo();
-    nomInput.value = userInfo.userName || '';
-    prenomInput.value = userInfo.userFirstName || '';
-    emailInput.value = userInfo.userEmail || '';
-
-    submitForm(nomInput.value, prenomInput.value, emailInput.value);
+  const paypalButton = document.getElementById('pay-via-paypal');
+  if(paypalButton) {
+    paypalButton.addEventListener('click', async () => {
+      paymentClicked = true;
+    });
   }
 
-  nomInput.addEventListener('change', handleInputChange);
-  prenomInput.addEventListener('change', handleInputChange);
-  emailInput.addEventListener('change', handleInputChange);
-
-  /**
-   * Gère de manière asynchrone les événements de modification des entrées, en enregistrant les données utilisateur sur le serveur.
-   * @async
-   * @param {Event} event - L'événement de changement d'entrée.
-   */
-  async function handleInputChange(event) {
-    const nom = nomInput.value;
-    const prenom = prenomInput.value;
-    const email = emailInput.value;
-    submitForm(nom, prenom, email);
-  }
-
-  /**
-   * Soumet le formulaire et enregistre les données utilisateur sur le serveur.
-   * @async
-   * @param {string} nom - Le nom de l'utilisateur.
-   * @param {string} prenom - Le prénom de l'utilisateur.
-   * @param {string} email - L'email de l'utilisateur.
-   */
-  async function submitForm(nom, prenom, email) {
-    if (nom && prenom && email) {
-      try {
-        const response = await fetch('/api/save-user-data', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ nom, prenom, email }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Erreur lors de l'enregistrement des données");
-        }
-
-        console.log('Données enregistrées avec succès');
-      } catch (error) {
-        console.error(error);
+  const allLinks = document.querySelectorAll('html a');
+  allLinks.forEach(link => {
+    link.addEventListener('click', (event) => {
+      if (paymentClicked===false) {
+        event.preventDefault();
+        window.location.href = '/cancel';
       }
-    }
-  }
+    });
+  });
 });
