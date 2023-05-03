@@ -101,7 +101,7 @@ function carouselManager(apiInsta) {
         divPublicationInfo.appendChild(spanPublicationTitre);
 
         let lienPublication = document.createElement("a");
-        lienPublication.href = "#"; // TODO: Ajouter le lien vers la publication dans le JSON (si possible)
+        lienPublication.href = "#";
         lienPublication.classList.add("acceder-publication");
         lienPublication.textContent = "Accéder";
 
