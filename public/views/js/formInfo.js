@@ -1,56 +1,60 @@
+document.addEventListener('DOMContentLoaded', async () => {
 /**
- * Éléments représentant les champs de saisie pour les informations de l'utilisateur.
+ * Elements representing the input fields for user information.
  */
 const nomInput = document.getElementById('nom');
 const prenomInput = document.getElementById('prenom');
 const emailInput = document.getElementById('email');
+const adresseInput = document.getElementById('adresse');
+const codePostalInput = document.getElementById('codePostal');
+const villeInput = document.getElementById('ville');
+const telephoneInput = document.getElementById('telephone');
 
-  nomInput.addEventListener('change', handleInputChange);
-  prenomInput.addEventListener('change', handleInputChange);
-  emailInput.addEventListener('change', handleInputChange);
+/**
+ * Event listeners for changes to the user information input fields.
+ */
+nomInput.addEventListener('change', handleInputChange);
+prenomInput.addEventListener('change', handleInputChange);
+emailInput.addEventListener('change', handleInputChange);
+adresseInput.addEventListener('change', handleInputChange);
+codePostalInput.addEventListener('change', handleInputChange);
+villeInput.addEventListener('change', handleInputChange);
+telephoneInput.addEventListener('change', handleInputChange);
 
-  /**
-   * Gère de manière asynchrone les événements de modification des entrées, en enregistrant les données utilisateur sur le serveur.
-   * @async
-   * @param {Event} event - L'événement de changement d'entrée.
-   */
-  async function handleInputChange(event) {
-    const nom = nomInput.value;
-    const prenom = prenomInput.value;
-    const email = emailInput.value;
-    submitForm(nom, prenom, email);
-  }
+/**
+ * Asynchronously handles input change events, saving user data to the server.
+ * @async
+ * @param {Event} event - The input change event.
+ */
+async function handleInputChange(event) {
+  const nom = nomInput.value;
+  const prenom = prenomInput.value;
+  const email = emailInput.value;
+  const adresse = adresseInput.value;
+  const codePostal = codePostalInput.value;
+  const ville = villeInput.value;
+  const telephone = telephoneInput.value;
 
-  /**
-   * Soumet le formulaire et enregistre les données utilisateur sur le serveur.
-   * @async
-   * @param {string} nom - Le nom de l'utilisateur.
-   * @param {string} prenom - Le prénom de l'utilisateur.
-   * @param {string} email - L'email de l'utilisateur.
-   */
-  async function submitForm(nom, prenom, email) {
-    if (nom && prenom && email) {
-      try {
-        const response = await fetch('/api/save-user-data', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ nom, prenom, email }),
-        });
+  try {
+    const response = await fetch('/api/save-user-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ nom, prenom, email, adresse, codePostal, ville, telephone }),
+    });
 
-        if (!response.ok) {
-          throw new Error("Erreur lors de l'enregistrement des données");
-        }
-
-        console.log('Données enregistrées avec succès');
-      } catch (error) {
-        console.error(error);
-      }
-
-      // Enregistre les données utilisateur dans le stockage local
-      localStorage.setItem('nom', nom);
-      localStorage.setItem('prenom', prenom);
-      localStorage.setItem('email', email);
+    if (!response.ok) {
+      throw new Error('Erreur lors de l\'enregistrement des données');
     }
+    console.log('Données enregistrées avec succès');
+  } catch (error) {
+    console.error(error);
   }
+
+  localStorage.setItem('nom', nom);
+  localStorage.setItem('prenom', prenom);
+  localStorage.setItem('email', email);
+}
+
+});

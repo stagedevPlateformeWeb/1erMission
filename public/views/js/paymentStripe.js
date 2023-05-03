@@ -32,7 +32,7 @@ async function handlePaymentStripe() {
   }));
 
   // Récupérer les informations de l'utilisateur
-  const userInfo = await getUserInfo();
+  
 
   const response = await fetch('/api/create-checkout-session', {
     method: 'POST',
@@ -41,8 +41,7 @@ async function handlePaymentStripe() {
     },
     body: JSON.stringify({
       lineItems,
-      customerEmail: userInfo.userEmail,
-      customerName: `${userInfo.userFirstName} ${userInfo.userName}`
+      customerEmail: getEmail()
     })
   });
 
@@ -57,6 +56,6 @@ async function handlePaymentStripe() {
     console.error(result.error.message);
   }
 }
-
+/*A mettre dans une fonction async sinon erreur console*/
 // Transfert des données utilisateur
-await transferUserData(userId);
+// await transferUserData(userId);
