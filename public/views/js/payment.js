@@ -48,20 +48,24 @@ async function handleInputChange(event) {
   const ville = villeInput.value;
   const telephone = telephoneInput.value;
 
-  if (nom && prenom && email && adresse && codePostal && ville && telephone) {
-    try {
-      const response = await fetch('/api/save-user-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nom, prenom, email, adresse, codePostal, ville, telephone }),
-      });
+  try {
+    const response = await fetch('/api/save-user-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ nom, prenom, email, adresse, codePostal, ville, telephone }),
+    });
 
-      if (!response.ok) {
-        throw new Error('Erreur lors de l\'enregistrement des données');
-      }
-      
+    if (!response.ok) {
+      throw new Error('Erreur lors de l\'enregistrement des données');
+    }
+    console.log('Données enregistrées avec succès');
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 // Appeler la fonction renderPayPalButton directement pour afficher les boutons PayPal dès le chargement de la page
 renderPayPalButton();
 
@@ -92,3 +96,4 @@ function renderPayPalButton() {
     },
   }).render('#paypal-button-container');
 }
+

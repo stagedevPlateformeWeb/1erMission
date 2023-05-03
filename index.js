@@ -454,5 +454,5 @@ app.post('/admin/form', async (req,res) =>{
 
 
 app.listen(port,host,() => {
-  console.log(`API en écoute sur ${host} ${port}`);
+  console.log(`API en écoute sur http://${host}:${port}`);
 });
