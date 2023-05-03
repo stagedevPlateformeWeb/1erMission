@@ -84,6 +84,26 @@ app.use(session({
 }));
 
 
+async function transferUserData(userId) {
+  try {
+    const client = await infosUtilisateursPool.connect();
+    const result = await client.query('SELECT * FROM infos_utilisateur WHERE id = $1', [userId]);
+    const userData = result.rows[0];
+
+    if (userData) {
+      await client.query('INSERT INTO users (nom, prenom, email, adresse, codepostal, ville, telephone) VALUES ($1, $2, $3, $4, $5, $6, $7)', [userData.nom, userData.prenom, userData.email, userData.adresse, userData.code_postal, userData.ville, userData.telephone]);
+      console.log('Données utilisateur transférées avec succès');
+    } else {
+      console.error('Utilisateur non trouvé');
+    }
+
+    client.release();
+  } catch (error) {
+    console.error('Erreur lors du transfert des données utilisateur:', error);
+  }
+}
+
+
 /**
  * Configure nunjucks to render HTML files.
  */
@@ -293,23 +313,6 @@ app.post('/api/create-checkout-session', async (req, res) => {
   }
 });
 
-// Route pour récupérer l'email de l'utilisateur
-app.get('/api/getUserInfo', async (req, res) => {
-  // Vérifiez si un utilisateur est connecté
-  if (req.session && req.session.user) {
-    res.json({ userEmail: req.session.user.email,
-               userName: req.session.user.name,
-               userFirstName: req.session.user.first_name,
-             });
-  } else {
-    res.json({ userEmail: null,
-                userName: null,
-                userFirstName: null
-             });
-  }
-});
-
-
 // Route pour récupérer panier abandonné
 app.post('/api/save-abandoned-cart', async (req, res) => {
   const { userEmail, cartItems } = req.body;
@@ -389,15 +392,15 @@ app.get('/api/clicks/:productId', async (req, res) => {
  */
 app.post('/api/save-user-data', async (req, res) => {
   try {
-    const { nom, prenom, email } = req.body;
+    const { nom, prenom, email, adresse, codePostal, ville, telephone } = req.body;
 
-    if (!nom || !prenom || !email) {
-      res.status(400).send('Nom, prénom et email sont requis');
+    if (!nom || !prenom || !email || !adresse || !codePostal || !ville || !telephone) {
+      res.status(400).send('Tous les champs sont requis');
       return;
     }
 
     const client = await infosUtilisateursPool.connect();
-    await client.query('INSERT INTO infos_utilisateur (nom, prenom, email) VALUES ($1, $2, $3)', [nom, prenom, email]);
+    await client.query('INSERT INTO infos_utilisateur (nom, prenom, email, adresse, codePostal, ville, telephone) VALUES ($1, $2, $3, $4, $5, $6, $7)', [nom, prenom, email, adresse, codePostal, ville, telephone]);
     client.release();
     res.status(201).send('Données enregistrées avec succès');
   } catch (error) {
@@ -434,5 +437,5 @@ app.post('/admin/form', async (req,res) =>{
 
 
 app.listen(port,host,() => {
-  console.log(`API en écoute sur ${host} ${port}`);
+  console.log(`API en écoute sur http://${host}:${port}`);
 });

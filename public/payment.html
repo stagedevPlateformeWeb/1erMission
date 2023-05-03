@@ -1,17 +1,19 @@
 {% extends "views/layout.html" %}
 
-{% block title %} 
+{% block title %}
 Paiements
 {% endblock %}
 {% block content %}
-<main>
-    <section id="paiements">
-        <h2>Paiements</h2>
-        <button id="payCard">Payer par carte bancaire</button>
-        <button id="pay-via-paypal">Payer via PayPal</button>
-        <div id="paypal-button-container" style="display: none;"></div>
-    </section>
-</main>
+
+<div id="payment-page">
+  <section id="paiements">
+    <h2>Paiements</h2>
+    <div class="payment-options">
+      <button id="payCard" class="payment-option">Payer par carte bancaire</button>
+      <div id="paypal-button-container"></div>
+    </div>
+  </section>
+</div>
 <script src="https://www.paypal.com/sdk/js?client-id=ATa0yClkJVB64ILAhkKoMx52BLXIlQymG0DBeuw28mLReBeJXo9lAGlBc47ev-FtsAVIwXrVqiaJQk4M"></script>
-<script src="./views/js/paymentPaypal.js"></script>
+<script src="/C:\1erMission\public\views\js\paymentStripe.js"></script>
 {% endblock %}
