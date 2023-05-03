@@ -21,7 +21,7 @@ async function saveAbandonedCart(userEmail, cartItems) {
   }
 }
 
-async function saveCartUnload() {
+async function saveCart() {
   // récupérer l'email de l'utilisateur
 
   const userEmail = getEmail();
