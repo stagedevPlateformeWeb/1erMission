@@ -112,7 +112,7 @@ async function placeOrder() {
         return;  }
 
         // redirige vers la page de paiement
-        window.location.href = '/payment';
+        window.location.href = '/paymentInterface';
       
       });
       

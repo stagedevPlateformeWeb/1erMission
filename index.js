@@ -313,23 +313,6 @@ app.post('/api/create-checkout-session', async (req, res) => {
   }
 });
 
-// Route pour récupérer l'email de l'utilisateur
-app.get('/api/getUserInfo', async (req, res) => {
-  // Vérifiez si un utilisateur est connecté
-  if (req.session && req.session.user) {
-    res.json({ userEmail: req.session.user.email,
-               userName: req.session.user.name,
-               userFirstName: req.session.user.first_name,
-             });
-  } else {
-    res.json({ userEmail: null,
-                userName: null,
-                userFirstName: null
-             });
-  }
-});
-
-
 // Route pour récupérer panier abandonné
 app.post('/api/save-abandoned-cart', async (req, res) => {
   const { userEmail, cartItems } = req.body;
@@ -454,5 +437,5 @@ app.post('/admin/form', async (req,res) =>{
 
 
 app.listen(port,host,() => {
-  console.log(`API en écoute sur ${host} ${port}`);
+  console.log(`API en écoute sur http://${host}:${port}`);
 });
