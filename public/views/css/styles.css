@@ -540,31 +540,65 @@ input {
   align-items: center;
   padding-top: 20px;
 }
-
-#slider-2:checked~.carousel-images #publication-1 {
+#slider-1:checked ~ .carousel-images #publication-1 {
   box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 45%);
-  transform: translate3d(20%, 0, -120px); /* 20% = x, 0 = y et -120px = z */
+  transform: translate3d(0, 0, 0);
   --current-color1: #ECEAED;
   --current-color2: #404457;
 }
 
-#slider-2:checked~.carousel-images #publication-3 {
+#slider-1:checked ~ .carousel-images #publication-2 {
   box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 45%);
-  transform: translate3d(-20%, 0, -120px);
+  transform: translate3d(50%, 0, -120px);
   --current-color1: #ECEAED;
   --current-color2: #404457;
 }
 
-#slider-1:checked~.carousel-images #publication-2 {
+#slider-1:checked ~ .carousel-images #publication-3 {
   box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 45%);
-  transform: translate3d(20%, 0, -120px);
+  transform: translate3d(100%, 0, -240px);
   --current-color1: #ECEAED;
   --current-color2: #404457;
 }
 
-#slider-3:checked~.carousel-images #publication-2 {
+#slider-2:checked ~ .carousel-images #publication-1 {
+  box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 45%);
+  transform: translate3d(-50%, 0, -120px);
+  --current-color1: #ECEAED;
+  --current-color2: #404457;
+}
+
+#slider-2:checked ~ .carousel-images #publication-2 {
+  box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 45%);
+  transform: translate3d(0, 0, 0);
+  --current-color1: #ECEAED;
+  --current-color2: #404457;
+}
+
+#slider-2:checked ~ .carousel-images #publication-3 {
+  box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 45%);
+  transform: translate3d(50%, 0, -120px);
+  --current-color1: #ECEAED;
+  --current-color2: #404457;
+}
+
+#slider-3:checked ~ .carousel-images #publication-1 {
   box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 45%);
-  transform: translate3d(-20%, 0, -120px);
+  transform: translate3d(-100%, 0, -240px);
+  --current-color1: #ECEAED;
+  --current-color2: #404457;
+}
+
+#slider-3:checked ~ .carousel-images #publication-2 {
+  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 45%);
+  transform: translate3d(-50%, 0, -120px);
+  --current-color1: #ECEAED;
+  --current-color2: #404457;
+}
+
+#slider-3:checked ~ .carousel-images #publication-3 {
+  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 45%);
+  transform: translate3d(0, 0, 0);
   --current-color1: #ECEAED;
   --current-color2: #404457;
 }
