@@ -14,7 +14,7 @@ html, body {
 }
 
 body {
-  background-color: #f3f3f3;
+  background-color: #F5F5DC;
   line-height: 1.6;
   display: table;
   width: 100%;
@@ -241,9 +241,9 @@ label{
   border-style: 1px;
   font-size: large;
   padding: 10px 20px;
-	border-radius: 6px;
-	border-width: 2px;
-	border-style: solid;
+  border-radius: 6px;
+  border-width: 2px;
+  border-style: solid;
 }
 
 .product-details button:hover{
@@ -331,7 +331,6 @@ label {
 }
 
 input[type="number"] {
-  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -522,3 +521,127 @@ input {
   --current-color1: #ECEAED;
   --current-color2: #404457;
 }
+
+#payment-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+#paiements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+#paiements h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.payment-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.payment-option {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.payment-option:hover {
+  background-color: #333333;
+}
+
+#user-data-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+#user-data-form h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+#user-data-form input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+}
+
+.payment-options {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/*Style du panel administrateur */
+
+.menu{
+
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-template-rows: repeat(3,1fr);
+  height: 80vh;
+  width: 100vw;
+
+}
+
+.panel button{
+  width: 100%;
+  height: 100%;
+  border: none;
+
+}
+
+/* admin add product */
+
+
+h1 {
+  text-align: center;
+}
+
+form {
+  column-gap: 2px;
+  margin: 5%;
+  height: 50%;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+form label {
+  margin: 10px;
+  font-size: medium;
+}
+
+form input {
+  width: 20%;
+  padding: 1px 1px 1px 1px;
+  margin: 2%;
+}
+
+
+/*
+button {
+  border: none;
+  text-align: center;
+  border-style: 2px;
+  margin: 50px;
+  padding: 2% 15% 2% 15%;
+}
+*/

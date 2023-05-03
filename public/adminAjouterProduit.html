@@ -1,0 +1,32 @@
+{% extends "views/layout.html" %}
+
+{% block title %}
+Panel Administration
+{% endblock %}
+{% block content %}
+
+
+<h1>Ajouter un produit</h1>
+    <form class="adminAddProduct" action="/admin/form" method="POST">
+        <label>Nom</label>
+        <input type="text" id="nomProduit" name="name" required />
+
+        <label>Prix</label>
+        <input type="number" id="prix" name="prix" inputmode="numeric" required />
+
+        <label>Description</label>
+        <input type="text" id="description" name="description" />
+
+        <label>Source</label>
+        <input type="text" id="source" name="source" />
+
+        <button type="submit">
+            Ajouter produit
+        </button>
+    </form>
+
+{% endblock %}
+
+
+<script src="/views/js/loginStatus.js"></script>
+<script src="index.js"></script>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>{% block title %} {% endblock %}</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="/css/styles.css" type="text/css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
@@ -24,14 +24,11 @@
         <div id="login-container"></div>
       </div>
       
-      
-
       </div>
 
       <div class="logo">
         <h1 onclick="window.location.href='/'">Prototype e-commerce</h1>
       </div>
-
 
       <div class="search">
         <input type="search" id="search" name="search" placeholder="Rechercher un produit">
@@ -46,36 +43,26 @@
         <label for="inputMaximum">Prix maximum</label>
         <input type="number" id="inputMaximum" name="maximum" value="1000" min="0" max="1000">
       </div>
-
-      <div class="logo">
-        <h1 onclick="window.location.href='/'">Prototype e-commerce</h1>
-      </div>
-
-
-      <div class="search">
-        <input type="search" id="search" name="search" placeholder="Rechercher un produit">
-        <button id="search-button">
-          <img src="assets/bx-search(1).svg" alt="search"/>
-        </button>
-      </div>
-
      </nav>
   </header>
 
   {% block content %}{% endblock %}
 
-
-  <script src="js/animation.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/fetchProducts.js"></script>
+  <script src="js/saveAbandonedCart.js"></script>
+  <script src="js/useSaveCart.js"></script>
   <script src="js/search.js"></script>
   <script src="js/productDetails.js"></script>
   <script src="js/checkout.js"></script>
   <script src="js/login.js"></script>
   <script src="js/loginStatus.js"></script>
-  <script src="js/payment.js"></script>
+  <script src="js/formInfo.js"></script>
   <script src="js/paymentStripe.js"></script>
-
+  <script src="js/payment.js"></script>
+  <script src="js/paymentPaypal.js"></script>
+  
+  
 
 </body>
 <footer>
