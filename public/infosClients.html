@@ -1,0 +1,17 @@
+{% extends "views/layout.html" %}
+
+{% block title %} 
+Informations Client
+{% endblock %}
+{% block content %}
+<main>
+    <section id="user-data-form">
+        <input type="text" id="nom" placeholder="Nom" required>
+        <input type="text" id="prenom" placeholder="Prénom" required>
+        <input type="email" id="email" placeholder="Email" required>
+    </section>
+    
+    <button id="retour" onclick="window.location.href='/paymentInterface'">Retour</button>
+    <button id="suivant" onclick="window.location.href='/payment'">Suivant</button>
+</main>
+{% endblock %}

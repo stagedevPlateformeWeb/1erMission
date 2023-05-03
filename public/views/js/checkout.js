@@ -1,6 +1,4 @@
 const totalCostElement = document.createElement('h4');
-let paypalButtonsRendered = false;
-
 
 /**
  * Get the total cost of items in the cart.
@@ -110,6 +108,7 @@ async function placeOrder() {
 
       // Si le panier est vide, on ne fait rien
       if (cart.getItems().length === 0) {
+
         return;  }
 
         // redirige vers la page de paiement
@@ -181,7 +180,7 @@ async function placeOrder() {
     
     document.addEventListener('DOMContentLoaded', () => {
     
-    if (document.querySelector('.cart-summary')) {
+  if (document.querySelector('.cart-summary')) {
     displayCartItems();
     }
     

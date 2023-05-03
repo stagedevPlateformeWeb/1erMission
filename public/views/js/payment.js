@@ -1,3 +1,4 @@
+
 /**
  * Element representing the "Pay with card" button.
  */
@@ -60,14 +61,7 @@ async function handleInputChange(event) {
       if (!response.ok) {
         throw new Error('Erreur lors de l\'enregistrement des données');
       }
-
-      console.log('Données enregistrées avec succès');
-    } catch (error) {
-      console.error(error);
-    }
-  }
-}
-
+      
 // Appeler la fonction renderPayPalButton directement pour afficher les boutons PayPal dès le chargement de la page
 renderPayPalButton();
 

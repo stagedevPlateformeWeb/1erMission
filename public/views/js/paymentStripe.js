@@ -36,7 +36,10 @@ async function handlePaymentStripe() {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ lineItems })
+    body: JSON.stringify({
+      lineItems,
+      customerEmail: getEmail(),
+    })
   });
 
   const session = await response.json();

@@ -12,17 +12,23 @@ const saltRounds = 10;
 const path = require('path');
 const nunjucks = require('nunjucks');
 const requestIp = require('request-ip');
-
+const http = require("http");
+const dotenv = require('dotenv').config()
+const bodyParser = require('body-parser');
 
 /**
  * Database configuration for user information.
  * @type {Object}
+ *   host: process.env.POSTGRES_INFOUTILISATEUR_HOST,
+ *   user: process.env.POSTGRES_INFOUTILISATEUR_USER,
+ *   password: process.env.POSTGRES_INFOUTILISATEUR_PASSWORD,
+ *   database: process.env.POSTGRES_INFOUTILISATEUR_DATABASE,
  */
 const infosUtilisateurs = {
-  host: 'postgresql-ismail.alwaysdata.net',
-  user: 'ismail',
-  password: 'Prototype13!',
-  database: 'ismail_panier_abandonne',
+  host: process.env.POSTGRES_INFOUTILISATEUR_HOST ,
+  user: process.env.POSTGRES_INFOUTILISATEUR_USER,
+  password: process.env.POSTGRES_INFOUTILISATEUR_PASSWORD ,
+  database: process.env.POSTGRES_INFOUTILISATEUR_DATABASE,
 };
 
 const infosUtilisateursPool = new Pool(infosUtilisateurs);
@@ -32,10 +38,10 @@ const infosUtilisateursPool = new Pool(infosUtilisateurs);
  * @type {Object}
  */
 const clickDbConfig = {
-  host: 'postgresql-ismail.alwaysdata.net',
-  user: 'ismail',
-  password: 'Prototype13!',
-  database: 'ismail_clicks',
+  host: process.env.POSTGRES_DBCLICK_HOST ,
+  user: process.env.POSTGRES_DBCLICK_USER,
+  password: process.env.POSTGRES_DBCLICK_PASSWORD ,
+  database: process.env.POSTGRES_DBCLICK_DATABASE,
 };
 
 const clickPgPool = new Pool(clickDbConfig);
@@ -51,8 +57,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
-const port = 4000;
+const port = process.env.ALWAYSDATA_HTTPD_PORT || 4000
+const host = process.env.ALWAYSDATA_HTTPD_IP || 'localhost'
 
 
 /**
@@ -60,10 +68,10 @@ const port = 4000;
  * @type {Object}
  */
 const dbConfig = {
-  host: 'postgresql-ismail.alwaysdata.net',
-  user: 'ismail',
-  password: 'Prototype13!',
-  database: 'ismail_prototype'
+  host: process.env.POSTGRES_HOST,
+  user: process.env.POSTGRES_USER,
+  password:  process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DATABASE,
 };
 
 const pgPool = new Pool(dbConfig);
@@ -141,6 +149,14 @@ app.get('/payment', (req, res) => {
   res.render('payment.html');
 });
 
+app.get('/paymentInterface', (req, res) => {
+  res.render('interfacePaiements.html');
+});
+
+app.get('/informations', (req, res) => {
+  res.render('infosClients.html');
+});
+
 
 
 /**
@@ -207,6 +223,8 @@ app.post('/api/login', async (req, res) => {
   req.session.user = {
   id: rows[0].id,
   email: rows[0].email,
+  name: rows[0].name,
+  first_name: rows[0].first_name,
   ip_address: userIpAddress // Ajoutez cette ligne
   };
   res.status(200).send('Connexion réussie');
@@ -231,7 +249,7 @@ app.post('/api/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     const userIpAddress = requestIp.getClientIp(req);
     const client = await pgPool.connect();
-    await client.query('INSERT INTO users (email, password, ip_address) VALUES ($1, $2, $3)', [req.body.email, hashedPassword, userIpAddress]);
+    await client.query('INSERT INTO users (email, name, first_name, password, ip_address) VALUES ($1, $2, $3, $4, $5)', [req.body.email, req.body.name, req.body.first_name, hashedPassword, userIpAddress]);
     client.release();
     res.status(201).send('Inscription réussie');
   } catch (error) {
@@ -273,15 +291,20 @@ app.post('/api/checkout', async (req, res) => {
  * @route {POST} /api/create-checkout-session
  */
 app.post('/api/create-checkout-session', async (req, res) => {
-  const { lineItems } = req.body;
+  const { lineItems, customerEmail } = req.body;
 
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
+      customer_email: customerEmail, 
+      billing_address_collection: 'auto',
+      shipping_address_collection: {
+        allowed_countries: ['FR', 'US', 'CA']
+      },
       mode: 'payment',
-      success_url: 'http://localhost:4000/success',
-      cancel_url: 'http://localhost:4000/cancel'
+      success_url: `http://${host}:${port}/success`,
+      cancel_url: `http://${host}:${port}/cancel`
     });
 
     res.json(session);
@@ -289,6 +312,50 @@ app.post('/api/create-checkout-session', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// Route pour récupérer l'email de l'utilisateur
+app.get('/api/getUserInfo', async (req, res) => {
+  // Vérifiez si un utilisateur est connecté
+  if (req.session && req.session.user) {
+    res.json({ userEmail: req.session.user.email,
+               userName: req.session.user.name,
+               userFirstName: req.session.user.first_name,
+             });
+  } else {
+    res.json({ userEmail: null,
+                userName: null,
+                userFirstName: null
+             });
+  }
+});
+
+
+// Route pour récupérer panier abandonné
+app.post('/api/save-abandoned-cart', async (req, res) => {
+  const { userEmail, cartItems } = req.body;
+
+  try {
+    const client = await pgPool.connect();
+
+    // requete pour inserer email et produits du panier abandonné sous format json
+    // si l'email existe deja dans la bd, on met à jour le panier abandonné
+    const query = `
+    INSERT INTO abandoned_cart (user_email, cart_products)
+    VALUES ($1, $2::json)
+    ON CONFLICT (user_email)
+    DO UPDATE SET cart_products = EXCLUDED.cart_products, created_at = NOW();
+  `;  
+
+    await client.query(query, [userEmail, JSON.stringify(cartItems)]);
+    client.release();
+
+    res.status(200).send('Panier abandonné sauvegardé');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Erreur lors de la sauvegarde du panier abandonné');
+  }
+});
+
 
 
 /**
@@ -360,6 +427,32 @@ app.post('/api/save-user-data', async (req, res) => {
 });
 
 
-app.listen(port, () => {
-  console.log(`API en écoute sur http://localhost:${port}`);
+app.get('/admin',async(req,res)=>{
+  res.render('adminPanel.html');
+})
+
+app.get('/admin/ajouterProduit',async (req,res)=>{
+  res.render('./adminAjouterProduit.html');
+})
+
+app.post('/admin/form', async (req,res) =>{
+  const nom = req.body.name;
+  const prix = req.body.prix;
+  const description = req.body.description;
+  const source = req.body.source;
+
+  try {
+    const client = await pgPool.connect();
+    await client.query('INSERT INTO products (name, price, description, image_url) VALUES ($1, $2, $3, $4)', [nom,prix,description,source]);
+    client.release();
+    res.status(201).send('Produit ajouté');
+  } catch (error) {
+    console.error('Erreur ajout produit', error);
+    res.status(500).send('Erreur ajout produit');
+  }
+})
+
+
+app.listen(port,host,() => {
+  console.log(`API en écoute sur ${host} ${port}`);
 });
