@@ -412,7 +412,7 @@ app.get('/admin',async(req,res)=>{
 })
 
 app.get('/admin/ajouterProduit',async (req,res)=>{
-  res.render('adminAjouterProduit.html');
+  res.render('./adminAjouterProduit.html');
 })
 
 app.post('/admin/form', async (req,res) =>{
