@@ -75,42 +75,47 @@ function carouselManager(apiInsta) {
     let jsonCarousel = shuffle(apiInsta.publications);
 
     for (let i = 0; i < jsonCarousel.length; i++) {
+      // Création du label de la publication
         let labelPublication = document.createElement("label");
-        labelPublication.setAttribute("for", "carousel-" + (i + 1));
-        labelPublication.classList.add("publication-" + (i + 1));
+        labelPublication.setAttribute("for", "slider-" + (i + 1));
         labelPublication.id = "publication-" + (i + 1);
 
-        let cartePublication = document.createElement("div");
-        cartePublication.classList.add("carousel-image");
-        let imagePublication = document.createElement("img");
-        imagePublication.src = jsonCarousel[i].image_url;
-        cartePublication.appendChild(imagePublication);
-        let divPoints = document.createElement("div");
-        divPoints.classList.add("points");
+        // Création de la div pour la carte de la publication
+        let divPublication = document.createElement("div");
+        divPublication.classList.add("card");
 
-        for (let j = 0; j < 4; j += 1) {
-            let point = document.createElement("div");
-            divPoints.appendChild(point);
-        }
-        cartePublication.appendChild(divPoints);
+        // Création de l'image de la publication
+        let divPublicationImage = document.createElement("div");
+        divPublicationImage.classList.add("image");
+        let imgPublication = document.createElement("img");
+        imgPublication.src = jsonCarousel[i].image_url;
+        divPublicationImage.appendChild(imgPublication);
 
-        let informationPublication = document.createElement("div");
-        informationPublication.classList.add("info-publication");
-        let titrePublication = document.createElement("span");
-        titrePublication.classList.add("titre-publication");
-        titrePublication.textContent = jsonCarousel[i].titre;
-        informationPublication.appendChild(titrePublication);
+        // Création des informations de la publication
+        let divPublicationInfo = document.createElement("div");
+        divPublicationInfo.classList.add("info-publication");
 
-        let divTest = document.createElement("div");
-        divTest.classList.add("card");
-        divTest.appendChild(cartePublication);
+        let spanPublicationTitre = document.createElement("span");
+        spanPublicationTitre.classList.add("name");
+        spanPublicationTitre.textContent = jsonCarousel[i].titre;
+        divPublicationInfo.appendChild(spanPublicationTitre);
 
-        labelPublication.appendChild(divTest);
-        labelPublication.appendChild(informationPublication);
+        let lienPublication = document.createElement("a");
+        lienPublication.href = "#"; // TODO: Ajouter le lien vers la publication dans le JSON (si possible)
+        lienPublication.classList.add("acceder-publication");
+        lienPublication.textContent = "Accéder";
 
+        divPublication.appendChild(divPublicationImage);
+        divPublication.appendChild(divPublicationInfo);
+        divPublication.appendChild(lienPublication);
+        console.log(divPublication);
+        labelPublication.appendChild(divPublication);
+
+        console.log(labelPublication);
+        // Ajout de la publication dans le carousel
         carouselImages.appendChild(labelPublication);
     }
-
+    // Ajout du carousel dans le conteneur
     carousel.appendChild(carouselImages);
 
 }
@@ -124,5 +129,5 @@ var jsonString = '{"publications": ' +
     '{"titre": "Chocolat noir", "image_url": "https://joel-vilcoq-chocolatier.fr/152-large_default/chocolats.jpg", "likes": 299}, ' +
     '{"titre": "Chocolat blanc", "image_url": "https://chaudun.com/wp-content/uploads/2017/11/tablette-chocolat-blanc.png", "likes": 0}' +
     ']}';
-///carouselManager(JSON.parse(jsonString));
+carouselManager(JSON.parse(jsonString));
 

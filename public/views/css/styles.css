@@ -428,6 +428,7 @@ input {
   margin-bottom: 20px;
   perspective: 1000px;
   transform-style: preserve-3d;
+  border-radius: 30px;
 }
 
 .carousel-images label {
@@ -466,34 +467,6 @@ input {
   object-fit: cover;
 }
 
-.card .image .dots{
-
-  text-align: center;
-}
-
-.dots div{
-
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-}
-
-.dots div:nth-child(1){
-
-  background-color: var(--current-color1);
-}
-
-.dots div:nth-child(2){
-
-  background-color: #5B85F9;
-}
-
-.dots div:nth-child(3){
-
-  background-color: #000;
-}
-
 .card .infos-publication{
 
   display: block;
@@ -516,7 +489,7 @@ input {
   transition: all .6s ease;
 }
 
-.card .btn-contact{
+.card .acceder-publication{
 
   width: 100%;
   height: 60px;
@@ -533,13 +506,7 @@ input {
   transition: all .7s ease;
 }
 
-.card .socials{
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 20px;
-}
 #slider-1:checked ~ .carousel-images #publication-1 {
   box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 45%);
   transform: translate3d(0, 0, 0);
