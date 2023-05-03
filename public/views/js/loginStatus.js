@@ -38,7 +38,7 @@ async function updateLoginStatus() {
     }
     else {
       const loginButton = document.createElement('button');
-      loginButton.innerHTML = '<img src="assets/bx-user.svg" alt="Login">';
+      loginButton.innerHTML = '<img src="../assets/bx-user.svg" alt="Login">';
       loginButton.onclick = () => {
         window.location.href = '/login';
       };
