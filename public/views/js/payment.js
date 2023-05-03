@@ -17,6 +17,10 @@ payCardButton.addEventListener('click', async () => {
 const nomInput = document.getElementById('nom');
 const prenomInput = document.getElementById('prenom');
 const emailInput = document.getElementById('email');
+const adresseInput = document.getElementById('adresse');
+const codePostalInput = document.getElementById('codePostal');
+const villeInput = document.getElementById('ville');
+const telephoneInput = document.getElementById('telephone');
 
 /**
  * Event listeners for changes to the user information input fields.
@@ -24,6 +28,10 @@ const emailInput = document.getElementById('email');
 nomInput.addEventListener('change', handleInputChange);
 prenomInput.addEventListener('change', handleInputChange);
 emailInput.addEventListener('change', handleInputChange);
+adresseInput.addEventListener('change', handleInputChange);
+codePostalInput.addEventListener('change', handleInputChange);
+villeInput.addEventListener('change', handleInputChange);
+telephoneInput.addEventListener('change', handleInputChange);
 
 /**
  * Asynchronously handles input change events, saving user data to the server.
@@ -34,15 +42,19 @@ async function handleInputChange(event) {
   const nom = nomInput.value;
   const prenom = prenomInput.value;
   const email = emailInput.value;
+  const adresse = adresseInput.value;
+  const codePostal = codePostalInput.value;
+  const ville = villeInput.value;
+  const telephone = telephoneInput.value;
 
-  if (nom && prenom && email) {
+  if (nom && prenom && email && adresse && codePostal && ville && telephone) {
     try {
       const response = await fetch('/api/save-user-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nom, prenom, email }),
+        body: JSON.stringify({ nom, prenom, email, adresse, codePostal, ville, telephone }),
       });
 
       if (!response.ok) {
@@ -63,7 +75,7 @@ function renderPayPalButton() {
   const cartTotal = cart.getTotal().toFixed(2);
 
   paypal.Buttons({
-    fundingSource: paypal.FUNDING.PAYPAL, // Ajoutez cette ligne
+    fundingSource: paypal.FUNDING.PAYPAL,
     createOrder: function (data, actions) {
       return actions.order.create({
         purchase_units: [
@@ -75,9 +87,13 @@ function renderPayPalButton() {
         ],
       });
     },
-    onApprove: function (data, actions) {
-      return actions.order.capture().then(function (details) {
+    onApprove: async function (data, actions) {
+      return actions.order.capture().then(async function (details) {
         alert('Transaction effectuée par ' + details.payer.name.given_name);
+
+        // Ajoutez l'appel à transferUserData ici, en utilisant l'identifiant de l'utilisateur qui vient de payer.
+        // Remplacez "userId" par la variable contenant l'identifiant réel de l'utilisateur.
+        await transferUserData(userId);
       });
     },
   }).render('#paypal-button-container');
