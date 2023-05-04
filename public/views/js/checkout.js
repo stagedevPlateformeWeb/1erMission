@@ -92,6 +92,10 @@ function displayCartItems() {
   updateTotalCost();
   cartSummary.appendChild(totalCostElement);
 
+  if(getTotalCost() === 0) {
+    totalCostElement.textContent = "Votre panier est vide.";
+  }
+
 }
 
 
@@ -102,6 +106,10 @@ function displayCartItems() {
 async function placeOrder() {
     
     const placeOrderButton = document.getElementById('place-order');
+    
+    if (getTotalCost() === 0) {
+      placeOrderButton.disabled = true;
+    }
   
     placeOrderButton.addEventListener('click', async () => {
       

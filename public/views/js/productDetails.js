@@ -52,12 +52,3 @@ async function fetchProductDetails() {
       fetchProductDetails();
       }
       
-
-     /**
- * Updates the number of items in the cart displayed on the page.
- */
-      function updateCartCount() {
-      const cartCount = document.getElementById('cart-count');
-      const totalCount = cart.getItems().reduce((count, item) => count + item.quantity, 0);
-      cartCount.textContent = totalCount;
-      }

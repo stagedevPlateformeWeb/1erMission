@@ -71,7 +71,11 @@ async function fetchProducts(searchQuery = '') {
 function updateCartCount() {
   const cartCount = document.getElementById('cart-count');
   const totalCount = cart.getItems().reduce((count, item) => count + item.quantity, 0);
+  
+  cartCount.style.display = totalCount > 0 ? 'block' : 'none';
   cartCount.textContent = totalCount;
+  
+  
 }
 
 
