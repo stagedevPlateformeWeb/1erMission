@@ -538,8 +538,7 @@ a{
   text-decoration: none;
 }
 
-input {
-
+.carousel-images-container input {
   display: none;
 }
 
