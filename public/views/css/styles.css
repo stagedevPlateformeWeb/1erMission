@@ -353,11 +353,6 @@ a{
   text-decoration: none;
 }
 
-input {
-
-  display: none;
-}
-
 .carousel-images-container {
 
   width: 100%;
@@ -370,6 +365,11 @@ input {
   align-items: center;
   flex-direction: column;
   border-radius: 30px;
+}
+
+.carousel-images-container input {
+
+  display: none;
 }
 
 .carousel-images {
