@@ -173,7 +173,7 @@ let query = 'SELECT id, name, price FROM products';
 let queryParams = [];
 
 if (searchQuery) {
-  query += ' WHERE name LIKE $1';
+  query += ' WHERE name ILIKE $1';
   queryParams.push(`%${searchQuery}%`);
   query += ' AND price >= $2 AND price <= $3';
   queryParams.push(valeurMin, valeurMax);
